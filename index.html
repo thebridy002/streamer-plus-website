@@ -1,0 +1,977 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Streamer Plus</title>
+<meta name="description" content="Streamer Plus is a free Fabric mod for Minecraft 26.3, 26.2 and 1.21.11: live streams, chat, gifts, Money Alerts, a donation wheel, watch parties, Spotify lyrics and payment tracking for DonutSMP.">
+<link rel="icon" type="image/png" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=Silkscreen&display=swap">
+<style>
+/* Layout: dark broadcast-style page. Real in-game screenshots carry the story; type and glow frame them. */
+:root {
+  color-scheme: dark;
+  --ink: #09070f;
+  --ink-2: #110d1c;
+  --panel: #161125;
+  --panel-2: #1f1833;
+  --line: rgba(255,255,255,.08);
+  --line-2: rgba(255,255,255,.15);
+  --text: #f3f0ff;
+  --dim: #b3abd1;
+  --faint: #8a82a8;
+  --violet: #8b5cf6;
+  --violet-2: #c4b5fd;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --lime: #4ade80;
+  --red: #fb7185;
+  --cyan: #22d3ee;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --pixel: "Silkscreen", "Courier New", monospace;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r: 18px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { margin: 0; background: var(--ink); color: var(--text); font: 16px/1.6 var(--body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+code { font: 500 .86em/1.4 var(--mono); color: var(--violet-2); background: rgba(139,92,246,.12); padding: 2px 6px; border-radius: 6px; overflow-wrap: anywhere; }
+kbd { font: 600 13px/1 var(--body); padding: 3px 7px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line-2); border-bottom-width: 3px; color: var(--text); white-space: nowrap; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 600px) { .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
+:focus-visible { outline: 2px solid var(--violet-2); outline-offset: 3px; border-radius: 8px; }
+.glow-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.glow-bg::before, .glow-bg::after { content: ""; position: absolute; border-radius: 50%; filter: blur(90px); }
+.glow-bg::before { width: 620px; height: 620px; left: -160px; top: -200px; background: #5b21b6; opacity: .55; }
+.glow-bg::after { width: 520px; height: 520px; right: -140px; top: 120px; background: #15803d; opacity: .3; }
+
+/* ------------------------------------------------ nav */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 40; background: var(--ink); }
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; transition: background .2s, border-color .2s; border-bottom: 1px solid transparent; }
+.nav.scrolled { background: rgba(9,7,15,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 19px/1 var(--display); letter-spacing: -.01em; white-space: nowrap; }
+.brand img { width: 34px; height: 34px; filter: drop-shadow(0 0 10px rgba(74,222,128,.45)); }
+.nav-links { display: flex; gap: 24px; margin-left: auto; }
+.nav-links a { text-decoration: none; color: var(--dim); font-weight: 500; font-size: 14px; transition: color .15s; }
+.nav-links a:hover { color: var(--text); }
+@media (max-width: 860px) { .nav-links { display: none; } .nav .btn { margin-left: auto; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 14px 22px; border-radius: 12px; font: 600 15px/1 var(--body); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .15s, box-shadow .2s, background .2s, border-color .2s; white-space: nowrap; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: linear-gradient(180deg, #a78bfa, #7c3aed); color: #fff; box-shadow: 0 10px 34px -10px #8b5cf6, inset 0 1px 0 rgba(255,255,255,.25); }
+.btn-primary:hover { box-shadow: 0 14px 40px -8px #8b5cf6, inset 0 1px 0 rgba(255,255,255,.3); }
+.btn-ghost { background: rgba(255,255,255,.04); border-color: var(--line-2); color: var(--text); }
+.btn-ghost:hover { border-color: var(--violet-2); background: rgba(255,255,255,.07); }
+.btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+
+/* ------------------------------------------------ hero */
+.hero { position: relative; padding-block: 56px 40px; overflow-x: clip; }
+.hero > .wrap { position: relative; z-index: 1; text-align: center; }
+.badge-row { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid var(--line-2); font-size: 13px; color: var(--dim); text-decoration: none; max-width: 100%; }
+.badge-row b { background: var(--violet); color: #fff; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; flex: none; }
+.badge-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+h1 { font: 800 clamp(42px, 7.6vw, 88px)/.98 var(--display); letter-spacing: -.035em; margin: 22px auto 20px; max-width: 13ch; text-wrap: balance; }
+h1 .shine { background: linear-gradient(92deg, #bbf7d0 0%, #4ade80 30%, #fbbf24 65%, #f472b6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lede { color: var(--dim); font-size: clamp(17px, 2vw, 20px); max-width: 38em; margin: 0 auto 30px; text-wrap: pretty; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.meta-row { display: flex; gap: 8px 22px; flex-wrap: wrap; justify-content: center; margin-top: 22px; color: var(--faint); font-size: 13px; }
+.meta-row span::before { content: "✓"; color: var(--green); margin-right: 7px; font-weight: 700; }
+
+.showcase { position: relative; margin: 60px auto 0; max-width: 1060px; }
+.window { position: relative; border-radius: 20px; padding: 10px; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03)); box-shadow: 0 50px 120px -40px rgba(124,58,237,.65), 0 30px 60px -30px rgba(0,0,0,.9); }
+.window img { border-radius: 12px; width: 100%; aspect-ratio: 1200 / 682; object-fit: cover; }
+.float { position: absolute; border-radius: 14px; overflow: hidden; border: 1px solid var(--line-2); box-shadow: 0 24px 60px -20px rgba(0,0,0,.95); background: #000; }
+.float.reveal { width: 44%; left: -4%; bottom: -9%; animation: bob 6s ease-in-out infinite; }
+.float.wheel { width: 24%; right: -3%; top: -7%; border-radius: 50%; aspect-ratio: 1; animation: bob 7s ease-in-out -2s infinite; }
+.float.wheel img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; transform: scale(1.18); }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+@media (max-width: 1140px) { .float.reveal { left: 0; } .float.wheel { right: 0; } }
+@media (max-width: 700px) { .float.reveal { width: 62%; bottom: -16%; } .float.wheel { width: 30%; top: -10%; } .showcase { margin-bottom: 40px; } }
+
+/* ------------------------------------------------ strip + numbers */
+.strip { padding-block: 70px 30px; }
+.strip p { text-align: center; color: var(--faint); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 20px; }
+.strip ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 40px; font: 700 20px/1 var(--display); color: #7d769c; }
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: var(--r); background: var(--ink-2); overflow: hidden; }
+.numbers div { padding: 26px 22px; border-left: 1px solid var(--line); }
+.numbers div:first-child { border-left: 0; }
+.numbers b { display: block; font: 800 clamp(30px, 4vw, 44px)/1 var(--display); letter-spacing: -.02em; margin-bottom: 6px; }
+.numbers span { color: var(--dim); font-size: 14px; }
+@media (max-width: 760px) { .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); } .numbers div:nth-child(3) { border-left: 0; } .numbers div:nth-child(n+3) { border-top: 1px solid var(--line); } }
+
+/* ------------------------------------------------ sections */
+section { padding-block: 96px; position: relative; }
+.head { max-width: 46rem; margin-bottom: 44px; }
+.head.center { text-align: center; margin-inline: auto; }
+.kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 13px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--violet-2); margin-bottom: 14px; }
+.kicker::before { content: ""; width: 18px; height: 2px; background: currentColor; border-radius: 2px; }
+.head.center .kicker::after { content: ""; width: 18px; height: 2px; background: currentColor; border-radius: 2px; }
+h2 { font: 800 clamp(32px, 5vw, 56px)/1.02 var(--display); letter-spacing: -.03em; margin: 0 0 14px; text-wrap: balance; }
+.head p { color: var(--dim); margin: 0; font-size: 18px; text-wrap: pretty; }
+.alt { background: linear-gradient(180deg, transparent, rgba(124,58,237,.07) 30%, rgba(124,58,237,.07) 70%, transparent); }
+
+/* bento */
+.bento { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.tile { grid-column: span 2; background: linear-gradient(180deg, var(--panel), var(--ink-2)); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; display: flex; flex-direction: column; gap: 10px; min-width: 0; overflow: hidden; position: relative; transition: border-color .2s, transform .2s; }
+.tile:hover { border-color: var(--line-2); transform: translateY(-3px); }
+.tile.w3 { grid-column: span 3; }
+.tile.w4 { grid-column: span 4; }
+.tile h3 { margin: 0; font: 700 22px/1.15 var(--display); letter-spacing: -.01em; }
+.tile p { margin: 0; color: var(--dim); font-size: 15px; }
+.tile .shot { margin-top: auto; padding-top: 14px; }
+.tile .shot img { border-radius: 10px; border: 1px solid var(--line); width: 100%; }
+.ico { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(139,92,246,.14); color: var(--violet-2); border: 1px solid rgba(139,92,246,.25); flex: none; }
+.tile.money { background: radial-gradient(500px 240px at 80% 0%, rgba(251,191,36,.16), transparent 70%), linear-gradient(180deg, var(--panel), var(--ink-2)); }
+.tile.money .ico { background: rgba(251,191,36,.12); color: var(--gold); border-color: rgba(251,191,36,.3); }
+.wheel-shot { margin: auto -26px -26px; padding-top: 10px; }
+.wheel-shot img { width: 100%; aspect-ratio: 820 / 600; object-fit: cover; object-position: 50% 0; }
+@media (max-width: 960px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile, .tile.w3, .tile.w4 { grid-column: span 1; } .tile.wide-m { grid-column: span 2; } }
+@media (max-width: 620px) { .bento { grid-template-columns: 1fr; } .tile.wide-m { grid-column: span 1; } }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.tags span { font: 400 12px/1 var(--pixel); padding: 8px 10px; border-radius: 8px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.22); color: #fde68a; }
+
+/* money deep-dive */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; min-width: 0; }
+.card h3 { margin: 0 0 6px; font: 700 20px/1.2 var(--display); }
+.card > p { margin: 0 0 16px; color: var(--dim); font-size: 15px; }
+.tiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tiers li { display: grid; grid-template-columns: 12px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--ink-2); font: 400 13px/1 var(--pixel); }
+.tiers li i { width: 12px; height: 12px; border-radius: 3px; background: var(--c); box-shadow: 0 0 10px -1px var(--c); }
+.tiers li b { color: var(--c); font-weight: 400; }
+.tiers li span { color: var(--dim); font: 500 13px/1 var(--body); }
+.scene-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.scene-list div { padding: 12px; border-radius: 10px; background: var(--ink-2); border: 1px solid var(--line); min-width: 0; }
+.scene-list b { display: block; font: 600 14px/1.25 var(--body); }
+.scene-list span { color: var(--faint); font-size: 12.5px; }
+.sublabel { font: 600 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin: 18px 0 10px; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.checks li { position: relative; padding-left: 28px; color: var(--dim); font-size: 15px; }
+.checks li::before { content: ""; position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 5px; background: rgba(52,211,153,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%2334d399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat; }
+.checks li b { color: var(--text); font-weight: 600; }
+
+/* every page */
+.groups { display: grid; gap: 34px; }
+.group-title { display: flex; align-items: center; gap: 12px; font: 600 13px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin: 0 0 14px; }
+.group-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.pages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 960px) { .pages { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .pages { grid-template-columns: 1fr; } }
+.page { display: flex; gap: 14px; padding: 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.page h4 { margin: 0 0 4px; font: 700 16px/1.2 var(--body); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.page p { margin: 0; color: var(--dim); font-size: 14px; }
+.page .ico { width: 38px; height: 38px; border-radius: 10px; font-size: 17px; }
+.soon { font: 600 10px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; padding: 4px 7px; border-radius: 999px; background: rgba(251,191,36,.15); color: var(--gold); }
+
+/* gallery */
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+@media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }
+.gallery figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 10px; min-width: 0; }
+.gallery img { border-radius: 10px; width: 100%; }
+.gallery figcaption { padding: 12px 6px 4px; color: var(--dim); font-size: 14px; }
+.gallery figcaption b { color: var(--text); display: block; font: 700 16px/1.3 var(--body); margin-bottom: 2px; }
+
+/* themes */
+.themes { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+@media (max-width: 960px) { .themes { grid-template-columns: 1fr; } }
+.theme-view { position: relative; border-radius: 18px; padding: 8px; background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.02)); }
+.theme-view img { border-radius: 11px; width: 100%; aspect-ratio: 1200/682; object-fit: cover; transition: opacity .15s; }
+.theme-cap { margin: 14px 6px 4px; color: var(--dim); font-size: 15px; min-height: 1.6em; }
+.theme-cap b { color: var(--text); }
+.swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 960px) { .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sw-label { grid-column: 1 / -1; font: 600 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin: 6px 0 2px; }
+.sw { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); color: var(--text); font: 600 13.5px/1.1 var(--body); cursor: pointer; text-align: left; transition: border-color .15s, background .15s; min-width: 0; }
+.sw:hover { border-color: var(--line-2); }
+.sw[aria-pressed="true"] { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--panel)); }
+.sw i { width: 18px; height: 18px; border-radius: 6px; background: var(--c); flex: none; box-shadow: 0 0 14px -2px var(--c); }
+
+/* try-it */
+.demo { display: grid; grid-template-columns: 330px 1fr; gap: 20px; align-items: stretch; }
+@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } }
+.controls { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 14px; align-content: start; }
+.controls h3 { margin: 4px 0 0; font: 600 13px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 600 14px/1 var(--body); padding: 11px 13px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--panel-2); color: var(--text); cursor: pointer; transition: border-color .15s, background .15s; }
+.chip:hover { border-color: var(--violet-2); }
+.chip[aria-pressed="true"] { background: var(--violet); border-color: var(--violet); color: #fff; }
+.chip small { display: block; font: 400 9px/1.2 var(--pixel); margin-top: 5px; opacity: .85; }
+.send { width: 100%; margin-top: 6px; }
+.note { color: var(--faint); font-size: 13px; margin: 0; }
+.stage { position: relative; min-height: 360px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #06080d; }
+.stage .scene { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: var(--pixel); color: #fff; animation: sceneIn .5s cubic-bezier(.2,1.4,.4,1); }
+@keyframes sceneIn { from { transform: scale(.85); opacity: 0; } }
+.scene .inner { display: grid; gap: 8px; padding: 20px; max-width: 100%; }
+.scene .title { font-size: clamp(13px, 2.4vw, 22px); }
+.scene .amount { font-size: clamp(34px, 8vw, 78px); line-height: 1; color: var(--gold); text-shadow: 4px 4px 0 #6b4400; overflow-wrap: anywhere; }
+.scene .from { font-size: clamp(10px, 1.6vw, 14px); color: #e5e7eb; }
+.stage .idle { color: var(--dim); font: 500 15px/1.5 var(--body); padding: 20px; }
+.scanlines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,255,90,.07) 0 1px, transparent 1px 3px); pointer-events: none; }
+.stage.shake { animation: shake .45s; }
+@keyframes shake { 20% { transform: translate(-6px, 3px) } 40% { transform: translate(5px, -4px) } 60% { transform: translate(-3px, 2px) } 80% { transform: translate(2px, -1px) } }
+canvas.confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+
+/* badges */
+.badges { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .badges { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.badge { display: flex; gap: 14px; align-items: center; padding: 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.badge img { width: 36px; height: 36px; image-rendering: pixelated; flex: none; }
+.badge b { display: block; font: 700 16px/1.2 var(--body); }
+.badge span { color: var(--dim); font-size: 13.5px; }
+
+/* commands */
+.cmds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 760px) { .cmds { grid-template-columns: 1fr; } }
+.cmd { display: grid; grid-template-columns: minmax(0, 210px) 1fr; gap: 14px; align-items: baseline; padding: 14px 16px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--line); min-width: 0; }
+@media (max-width: 480px) { .cmd { grid-template-columns: 1fr; gap: 6px; } }
+.cmd code { justify-self: start; }
+.cmd span { color: var(--dim); font-size: 14px; }
+
+/* download */
+.versions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .versions { grid-template-columns: 1fr; } }
+.ver { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.ver.main { border-color: rgba(139,92,246,.6); background: radial-gradient(400px 200px at 50% 0%, rgba(139,92,246,.22), transparent 70%), var(--panel); }
+.ver .top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ver .mc { font: 800 46px/1 var(--display); letter-spacing: -.03em; }
+.ver .mc small { font: 500 14px/1 var(--body); color: var(--faint); letter-spacing: 0; display: block; margin-bottom: 8px; }
+.ver dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: 14px; }
+.ver dt { color: var(--faint); }
+.ver dd { margin: 0; color: var(--text); min-width: 0; overflow-wrap: anywhere; }
+.ver .btn { margin-top: auto; }
+.sha { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.sha code { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; display: block; }
+.copy { flex: none; font: 600 12px/1 var(--body); padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--panel-2); color: var(--text); cursor: pointer; }
+.copy:hover { border-color: var(--violet-2); }
+.dl-note { font-size: 13px; color: var(--faint); margin: 0; min-height: 1.3em; }
+.pill { font: 600 11px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; background: rgba(139,92,246,.2); color: var(--violet-2); }
+.pill.gold { background: rgba(251,191,36,.15); color: var(--gold); }
+.pill.beta { background: rgba(251,146,60,.18); color: #fdba74; }
+.req { margin: 26px auto 0; max-width: 54rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .req { grid-template-columns: 1fr; } }
+.req div { padding: 16px 18px; border-radius: 14px; background: var(--ink-2); border: 1px solid var(--line); font-size: 14px; color: var(--dim); }
+.req b { display: block; color: var(--text); margin-bottom: 2px; }
+
+/* steps */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; display: grid; gap: 10px; align-content: start; }
+.step::before { counter-increment: s; content: "0" counter(s); font: 800 15px/1 var(--display); color: var(--violet-2); width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: rgba(139,92,246,.14); border: 1px solid rgba(139,92,246,.3); }
+.step h3 { margin: 6px 0 0; font: 700 21px/1.2 var(--display); }
+.step p { margin: 0; color: var(--dim); }
+.tip { margin-top: 16px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(74,222,128,.25); background: rgba(74,222,128,.06); color: var(--dim); font-size: 15px; }
+.tip b { color: var(--lime); }
+
+/* changelog */
+.log { display: grid; gap: 10px; max-width: 820px; }
+.log li { color: var(--dim); }
+.log ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+
+/* faq */
+.faq { display: grid; gap: 10px; max-width: 840px; margin: 0 auto; }
+details { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 0 22px; transition: border-color .2s; }
+details[open] { border-color: var(--line-2); }
+summary { cursor: pointer; list-style: none; padding: 20px 0; font: 600 17px/1.3 var(--body); display: flex; justify-content: space-between; gap: 14px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; flex: none; width: 10px; height: 10px; border-right: 2px solid var(--violet-2); border-bottom: 2px solid var(--violet-2); transform: rotate(45deg) translateY(-3px); transition: transform .2s; }
+details[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+details p { margin: 0 0 20px; color: var(--dim); }
+
+/* closing + footer */
+.closing .box { position: relative; overflow: hidden; border: 1px solid var(--line-2); border-radius: 28px; padding: clamp(32px, 6vw, 72px) clamp(20px, 6vw, 72px); text-align: center; background: radial-gradient(700px 300px at 50% -10%, rgba(139,92,246,.45), transparent 70%), radial-gradient(500px 260px at 100% 120%, rgba(74,222,128,.2), transparent 70%), var(--ink-2); }
+.closing img { width: 72px; height: 72px; margin: 0 auto 18px; filter: drop-shadow(0 0 22px rgba(74,222,128,.5)); }
+.closing h2 { margin-inline: auto; max-width: 16ch; }
+.closing p { color: var(--dim); margin: 0 auto 28px; max-width: 34em; font-size: 18px; }
+footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--faint); font-size: 14px; }
+footer .wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+footer a { color: var(--dim); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+.reveal-up { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.reveal-up.in { opacity: 1; transform: none; }
+.no-io .reveal-up { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal-up { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/icon.png" width="34" height="34" alt="">Streamer Plus</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#features">Features</a>
+      <a href="#money">Money Alerts</a>
+      <a href="#everything">Everything</a>
+      <a href="#themes">Themes</a>
+      <a href="#download">Download</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#download">Download</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="glow-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <a class="badge-row" href="#changelog"><b>2.0.1</b><span>15 payment cinematics, louder than ever →</span></a>
+    <h1>Stream it. Play it. <span class="shine">Get paid loud.</span></h1>
+    <p class="lede">Streamer Plus brings your live stream, your chat and every payment you get into Minecraft. No more alt-tabbing, and your viewers see every big moment as it happens.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#download">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        Download free
+      </a>
+      <a class="btn btn-ghost" href="#try">See an alert</a>
+    </div>
+    <div class="meta-row"><span>Free</span><span>Minecraft 26.3 · 26.2 · 1.21.11</span><span>Fabric and Lunar Client</span><span>Never asks for your password</span></div>
+
+    <div class="showcase">
+      <div class="window"><img src="img/theme-aurora.jpg" width="1200" height="682" alt="The Streamer Plus dashboard in game with the Aurora theme, showing money, kills, deaths, playtime and balance"></div>
+      <div class="float reveal"><img src="img/reveal-rare.jpg" width="820" height="300" alt="A $2.5M payment alert from Alex with a combo and a new record, covered in confetti"></div>
+      <div class="float wheel"><img src="img/wheel.jpg" width="820" height="784" alt="The donation wheel with player heads"></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <p>Works with</p>
+    <ul><li>Twitch</li><li>YouTube</li><li>TikTok</li><li>Spotify</li><li>DonutSMP</li><li>Fabric</li><li>Lunar Client</li><li>Modrinth</li></ul>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="numbers reveal-up">
+    <div><b>20+</b><span>tools in one menu</span></div>
+    <div><b>15</b><span>payment cinematics</span></div>
+    <div><b>14</b><span>menu themes</span></div>
+    <div><b>3</b><span>Minecraft versions</span></div>
+  </div>
+</div>
+
+<!-- ============================================ FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Features</span>
+      <h2>One mod. Your whole stream setup.</h2>
+      <p>Everything lives in one menu. Press <kbd>End</kbd> or type <code>/birdmod</code>, switch on what you need and get back to playing.</p>
+    </div>
+
+    <div class="bento">
+      <article class="tile w4 money reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Money Alerts that hit hard</h3>
+        <p>Every payment lands as a card with its own sound. The bigger it is, the harder it hits: screen shake, FOV punch and confetti, and for the huge ones, a full cinematic.</p>
+        <div class="tags"><span>Rocket</span><span>Slot Machine</span><span>UFO</span><span>Bank Heist</span><span>High Score</span><span>Money Wheel</span><span>+9 more</span></div>
+        <div class="shot"><img src="img/reveal-epic.jpg" width="820" height="300" loading="lazy" alt="An epic $17.5M payment from Frank with a x5 combo and screen effects"></div>
+      </article>
+
+      <article class="tile w2 wide-m reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg></div>
+        <h3>Donation wheel</h3>
+        <p>Pay or donate to join. Hit Start, then Stop, and the wheel picks a winner live on screen.</p>
+        <div class="wheel-shot"><img src="img/wheel.jpg" width="820" height="784" loading="lazy" alt="Donation wheel with player names and heads"></div>
+      </article>
+
+      <article class="tile w3 reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Your stream on a screen in your world</h3>
+        <p>Paste a Twitch, YouTube or TikTok link and it plays on a screen you place anywhere, with sound, in up to 1080p. The player is built in, so there's nothing else to install.</p>
+        <div class="shot"><img src="img/graph.jpg" width="556" height="230" loading="lazy" alt="Session graph showing +$7.6M earned during a stream"></div>
+      </article>
+
+      <article class="tile w3 reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <h3>Know exactly what you made</h3>
+        <p>Received, sent, best payment, combos and goals, for this session and all time. Money you get shows green in chat and money you send shows red.</p>
+        <div class="shot"><img src="img/money-stats.jpg" width="1200" height="349" loading="lazy" alt="Money Alerts overview: received +$24.2M, 9 payments in, sent -$2M, best payment $20M"></div>
+      </article>
+
+      <article class="tile reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>All your chats in one box</h3>
+        <p>Follow one streamer, or sync Twitch, YouTube and TikTok chat together, with emotes, badges and Super Chats.</p>
+      </article>
+      <article class="tile reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7"/></svg></div>
+        <h3>Gifts and goals</h3>
+        <p>Gifts, subs, bits and follows pop up on screen. Hit your follower goal and the HUD celebrates.</p>
+      </article>
+      <article class="tile reveal-up">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <h3>Spotify and 3D lyrics</h3>
+        <p>What's playing, with controls and synced lyrics on screen or floating in the world. No login needed.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ MONEY ALERTS -->
+<section id="money" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Money Alerts</span>
+      <h2>Every payment is an event.</h2>
+      <p>Built for DonutSMP. When someone pays you, Streamer Plus reads the server's message and turns it into a show for you and your viewers.</p>
+    </div>
+
+    <div class="split">
+      <div class="card reveal-up">
+        <h3>8 tiers, from small to cosmic</h3>
+        <p>The amount picks the tier. Each tier has its own color, sound and amount of confetti.</p>
+        <ul class="tiers">
+          <li style="--c:#9ca3af"><i></i><b>PAYMENT</b><span>under $10K</span></li>
+          <li style="--c:#4ade80"><i></i><b>COMMON</b><span>$10K+</span></li>
+          <li style="--c:#38bdf8"><i></i><b>UNCOMMON</b><span>$100K+</span></li>
+          <li style="--c:#a78bfa"><i></i><b>RARE</b><span>$1M+</span></li>
+          <li style="--c:#f472b6"><i></i><b>EPIC</b><span>$10M+</span></li>
+          <li style="--c:#fbbf24"><i></i><b>LEGENDARY</b><span>$100M+</span></li>
+          <li style="--c:#ff5a36"><i></i><b>MYTHIC</b><span>$1B+</span></li>
+          <li style="--c:#ffffff"><i></i><b>COSMIC</b><span>$10B+</span></li>
+        </ul>
+      </div>
+
+      <div class="card reveal-up">
+        <h3>15 cinematics for big payments</h3>
+        <p>Pick one per amount, or let the mod shuffle them so you never see the same one twice in a row.</p>
+        <div class="scene-list">
+          <div><b>High Score</b><span>Arcade counter</span></div>
+          <div><b>Money Wheel</b><span>Spins to the jackpot</span></div>
+          <div><b>Error Screen</b><span>"System overload"</span></div>
+          <div><b>Rocket</b><span>To the moon</span></div>
+          <div><b>Slot Machine</b><span>7 · 7 · 7</span></div>
+          <div><b>Money Graph</b><span>Line goes up</span></div>
+          <div><b>UFO</b><span>Beams up the cash</span></div>
+          <div><b>Bank Heist</b><span>Cracks the vault</span></div>
+          <div><b>Top Donators</b><span>Live leaderboard</span></div>
+          <div><b>Blackout</b><span>$50M+</span></div>
+          <div><b>Vault Breach</b><span>$100M+</span></div>
+          <div><b>Galaxy Collapse</b><span>$250M+</span></div>
+          <div><b>Supernova</b><span>$500M+</span></div>
+          <div><b>Bank Heist (classic)</b><span>$1B+</span></div>
+          <div><b>Reality Breach</b><span>$10B+</span></div>
+        </div>
+      </div>
+
+      <div class="card reveal-up">
+        <h3>More than alerts</h3>
+        <ul class="checks">
+          <li><b>Leaderboards:</b> top payers, top people you paid, bounty hunters and targets.</li>
+          <li><b>Combos and records:</b> back-to-back payments stack up, and new records get called out.</li>
+          <li><b>Session goal:</b> set an amount and get a celebration when you hit it.</li>
+          <li><b>Bounties:</b> tracks bounties on you and the ones you claim.</li>
+          <li><b>Achievements:</b> unlock them as your totals grow.</li>
+          <li><b>Payment colors:</b> money in shows green in chat, money out shows red. Pick your own colors.</li>
+          <li><b>Understands taxes:</b> lines like "You paid Zqti $1M (+$20K tax)" are tracked correctly.</li>
+        </ul>
+      </div>
+
+      <div class="card reveal-up">
+        <h3>You're in control</h3>
+        <ul class="checks">
+          <li>Turn the whole thing on or off from its own tab.</li>
+          <li>Separate switches for sounds, screen shake, FOV punch, glitches, confetti, money rain, flashes, vignette, casino lights, gold coins and win banners.</li>
+          <li>Set a minimum amount, a volume, and which scene plays at each amount.</li>
+          <li>Drag every alert, card and board to where you want it on screen.</li>
+          <li>Preview any scene with <code>/payfx scene rocket</code>, or every tier with <code>/payfx demo</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ TRY IT -->
+<section id="try">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Try it</span>
+      <h2>Go on, get paid.</h2>
+      <p>Pick an amount and hit send. From $50M up, the alert becomes a full scene. In the game it's louder, with sound and much more going on.</p>
+    </div>
+    <div class="demo reveal-up">
+      <div class="controls">
+        <h3>Amount</h3>
+        <div class="chips" id="amounts" role="group" aria-label="Payment amount">
+          <button class="chip" data-amt="25000" type="button" aria-pressed="false">$25K<small>Common</small></button>
+          <button class="chip" data-amt="2500000" type="button" aria-pressed="false">$2.5M<small>Rare</small></button>
+          <button class="chip" data-amt="25000000" type="button" aria-pressed="false">$25M<small>Epic</small></button>
+          <button class="chip" data-amt="1000000000" type="button" aria-pressed="true">$1B<small>Mythic</small></button>
+          <button class="chip" data-amt="10000000000" type="button" aria-pressed="false">$10B<small>Cosmic</small></button>
+        </div>
+        <h3>Big-payment scene</h3>
+        <div class="chips" id="scenes" role="group" aria-label="Scene">
+          <button class="chip" data-scene="rocket" type="button" aria-pressed="true">Rocket</button>
+          <button class="chip" data-scene="score" type="button" aria-pressed="false">High Score</button>
+          <button class="chip" data-scene="ufo" type="button" aria-pressed="false">UFO</button>
+          <button class="chip" data-scene="heist" type="button" aria-pressed="false">Bank Heist</button>
+          <button class="chip" data-scene="slots" type="button" aria-pressed="false">Slots</button>
+          <button class="chip" data-scene="error" type="button" aria-pressed="false">Error</button>
+        </div>
+        <button class="btn btn-primary send" id="send" type="button">Send payment</button>
+        <p class="note">Only a browser preview. No money moves anywhere.</p>
+      </div>
+      <div class="stage" id="stage" aria-live="polite">
+        <div class="scene"><div class="idle">Pick an amount, then hit <b>Send payment</b>.</div></div>
+        <canvas class="confetti" id="stageConfetti"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ EVERYTHING -->
+<section id="everything" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Everything inside</span>
+      <h2>Every page in the menu.</h2>
+      <p>This is the full list. Each one has its own switch, so you only see what you use.</p>
+    </div>
+
+    <div class="groups">
+      <div class="reveal-up">
+        <h3 class="group-title">Money and DonutSMP</h3>
+        <div class="pages">
+          <div class="page"><div class="ico">▦</div><div><h4>Dashboard</h4><p>Your money, kills, deaths, playtime, net worth and balance at a glance, by session, day, week or all time.</p></div></div>
+          <div class="page"><div class="ico">⇅</div><div><h4>Payments</h4><p>Every payment in and out, saved once and counted everywhere. Remove one and it's gone from every stat.</p></div></div>
+          <div class="page"><div class="ico">$</div><div><h4>Money Alerts</h4><p>Payment alerts, big reveals, leaderboards, bounties and achievements.</p></div></div>
+          <div class="page"><div class="ico">≣</div><div><h4>Transactions</h4><p>A clean list of what you bought and sold, including items.</p></div></div>
+          <div class="page"><div class="ico">⌂</div><div><h4>Gambling</h4><p>Wins, losses, win rate and streaks per session, your results over time, a profit graph and a calendar.</p></div></div>
+          <div class="page"><div class="ico">☺</div><div><h4>Friends</h4><p>See who's online and when they joined and left. Open /friends once and your friends are imported.</p></div></div>
+          <div class="page"><div class="ico">⚖</div><div><h4>Auctions <span class="soon">Coming soon</span></h4><p>Run auctions with live bids on screen.</p></div></div>
+        </div>
+      </div>
+
+      <div class="reveal-up">
+        <h3 class="group-title">Streaming</h3>
+        <div class="pages">
+          <div class="page"><div class="ico">▶</div><div><h4>Stream</h4><p>Watch a streamer or a video in game, with sound, on a screen in the world or on your HUD.</p></div></div>
+          <div class="page"><div class="ico">✉</div><div><h4>Chat</h4><p>One streamer's chat, or Twitch, YouTube and TikTok synced, beside the screen, in a corner or floating in the world.</p></div></div>
+          <div class="page"><div class="ico">🎁</div><div><h4>Gifts</h4><p>Gifts, subs, follows and viewers on stream, with pop-ups and a follower goal.</p></div></div>
+          <div class="page"><div class="ico">∿</div><div><h4>Stream stats</h4><p>Gifts, views and sessions over time, for each streamer you follow.</p></div></div>
+          <div class="page"><div class="ico">◎</div><div><h4>Donation Wheel</h4><p>Payers, bits and gifts join automatically. Start, then Stop, to pick a winner.</p></div></div>
+          <div class="page"><div class="ico">⧉</div><div><h4>Watch Party</h4><p>Create a party code and friends with the mod watch the same stream with you, in sync.</p></div></div>
+        </div>
+      </div>
+
+      <div class="reveal-up">
+        <h3 class="group-title">Tools and look</h3>
+        <div class="pages">
+          <div class="page"><div class="ico">♫</div><div><h4>Spotify</h4><p>Your Spotify app, controls, lyrics and 3D lyrics in the world. No login needed.</p></div></div>
+          <div class="page"><div class="ico">⌚</div><div><h4>Timer</h4><p>A countdown on screen, with an optional voice counting down the last seconds.</p></div></div>
+          <div class="page"><div class="ico">▣</div><div><h4>Overlay</h4><p>Pick what shows on your screen in game, then drag and resize every piece.</p></div></div>
+          <div class="page"><div class="ico">▨</div><div><h4>Images</h4><p>Put your own PNG or JPG files on your HUD, like a logo or a webcam frame.</p></div></div>
+          <div class="page"><div class="ico">✎</div><div><h4>Text on screen</h4><p>Your own text on the HUD, with colors and animations.</p></div></div>
+          <div class="page"><div class="ico">◈</div><div><h4>3D text</h4><p>Text floating in the world. Only you can see it.</p></div></div>
+          <div class="page"><div class="ico">✿</div><div><h4>Themes</h4><p>14 looks for the menu, from Liquid Glass to Christmas.</p></div></div>
+          <div class="page"><div class="ico">⚙</div><div><h4>Settings</h4><p>The basics up front, everything else under More settings, including every keybind.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery">
+      <figure class="reveal-up"><img src="img/watch-party.jpg" width="1100" height="265" loading="lazy" alt="Watch Party page with a party code box and a Create party button"><figcaption><b>Watch Party</b>Give friends your code and watch together.</figcaption></figure>
+      <figure class="reveal-up"><img src="img/friends.jpg" width="1100" height="261" loading="lazy" alt="Friends page showing online, offline and friend counts with join and leave alerts"><figcaption><b>Friends</b>Online counts and join and leave alerts.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ SAFETY -->
+<section id="safety">
+  <div class="wrap">
+    <div class="split" style="align-items:center">
+      <div class="reveal-up">
+        <span class="kicker">Safety</span>
+        <h2>Your money stays yours.</h2>
+        <p style="color:var(--dim);font-size:18px;margin:0 0 22px">Streamer Plus watches your back while you stream.</p>
+        <ul class="checks">
+          <li><b>Big /pay check:</b> big payments show who and how much before anything is sent. Cancel sends nothing.</li>
+          <li><b>Silent /pay blocker:</b> stops other mods from sending /pay (and similar commands) that you didn't type or click, and tells you which mod probably tried.</li>
+          <li><b>Real payments only:</b> it only reads the server's own messages, so a player typing "Steve paid you $1B" in chat can't fake an alert.</li>
+          <li><b>No logins:</b> it never asks for your password and never touches your Minecraft, Microsoft or Discord account.</li>
+        </ul>
+      </div>
+      <figure class="reveal-up" style="margin:0"><img src="img/pay-confirm.jpg" width="820" height="443" loading="lazy" alt="Confirm big payment dialog: you are about to pay Steve $5M, with Cancel and Send payment buttons" style="border-radius:16px;border:1px solid var(--line-2);box-shadow:0 30px 80px -30px rgba(0,0,0,.9)"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ THEMES -->
+<section id="themes" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Themes</span>
+      <h2>Make it match your stream.</h2>
+      <p>14 looks for the menu. Click one to see it. These are real screenshots from the game.</p>
+    </div>
+    <div class="themes reveal-up">
+      <div>
+        <div class="theme-view"><img id="themeImg" src="img/theme-dashboard.jpg" width="1200" height="682" loading="lazy" alt="Dashboard in the Purple Dashboard theme"></div>
+        <p class="theme-cap" id="themeCap" aria-live="polite"><b>Purple Dashboard.</b> Dark purple economy dashboard with sharp panels.</p>
+      </div>
+      <div class="swatches" id="swatches" role="group" aria-label="Theme">
+        <span class="sw-label">Dashboard colors</span>
+        <button class="sw" type="button" data-t="dashboard" style="--c:#8b5cf6" aria-pressed="true" data-d="Dark purple economy dashboard with sharp panels."><i></i>Purple</button>
+        <button class="sw" type="button" data-t="dash-ocean" style="--c:#3b82f6" aria-pressed="false" data-d="The dashboard in deep blue."><i></i>Ocean</button>
+        <button class="sw" type="button" data-t="dash-emerald" style="--c:#10b981" aria-pressed="false" data-d="The dashboard in emerald green."><i></i>Emerald</button>
+        <button class="sw" type="button" data-t="dash-crimson" style="--c:#e5484d" aria-pressed="false" data-d="The dashboard in dark red."><i></i>Crimson</button>
+        <button class="sw" type="button" data-t="dash-gold" style="--c:#e0a800" aria-pressed="false" data-d="The dashboard in gold."><i></i>Gold</button>
+        <button class="sw" type="button" data-t="dash-rose" style="--c:#ec4899" aria-pressed="false" data-d="The dashboard in pink."><i></i>Rose</button>
+        <button class="sw" type="button" data-t="dash-cyber" style="--c:#06b6d4" aria-pressed="false" data-d="The dashboard in neon cyan."><i></i>Cyber</button>
+        <span class="sw-label">Scenes</span>
+        <button class="sw" type="button" data-t="glass" style="--c:#cbd5e1" aria-pressed="false" data-d="Frosted see-through panels over the blurred world."><i></i>Liquid Glass</button>
+        <button class="sw" type="button" data-t="aurora" style="--c:#34d399" aria-pressed="false" data-d="Northern lights over a starry night."><i></i>Aurora</button>
+        <button class="sw" type="button" data-t="vice" style="--c:#f472b6" aria-pressed="false" data-d="Neon sunset over the beach."><i></i>Vice Nights</button>
+        <button class="sw" type="button" data-t="highroller" style="--c:#fbbf24" aria-pressed="false" data-d="Black and gold casino floor."><i></i>High Roller</button>
+        <button class="sw" type="button" data-t="sakura" style="--c:#f9a8d4" aria-pressed="false" data-d="Soft pink blossoms drifting by."><i></i>Sakura</button>
+        <button class="sw" type="button" data-t="christmas" style="--c:#22c55e" aria-pressed="false" data-d="Pine glass, twinkling string lights and snow."><i></i>Christmas</button>
+        <button class="sw" type="button" data-t="midnight" style="--c:#64748b" aria-pressed="false" data-d="Solid graphite panels. Easier on older graphics cards."><i></i>Midnight</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ BADGES -->
+<section id="badges">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Badges</span>
+      <h2>See who else runs Streamer Plus.</h2>
+      <p>With online features on, a badge shows next to the names of other players using the mod, in chat and in the tab list. The team's badges show even when they're offline.</p>
+    </div>
+    <div class="badges">
+      <div class="badge reveal-up"><img src="img/badge-verified.png" width="36" height="36" alt=""><div><b>Verified</b><span>Uses Streamer Plus</span></div></div>
+      <div class="badge reveal-up"><img src="img/badge-crown.png" width="36" height="36" alt=""><div><b>Owner</b><span>Made the mod</span></div></div>
+      <div class="badge reveal-up"><img src="img/badge-coowner.png" width="36" height="36" alt=""><div><b>Co-owner</b><span>Runs it with the owner</span></div></div>
+      <div class="badge reveal-up"><img src="img/badge-bughunter.png" width="36" height="36" alt=""><div><b>Bug Hunter</b><span>Found and reported bugs</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ COMMANDS -->
+<section id="commands" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Commands and keys</span>
+      <h2>Quick controls.</h2>
+      <p>All of these run on your side only. None of them send anything to the server.</p>
+    </div>
+    <div class="cmds reveal-up">
+      <div class="cmd"><code>End</code><span>Open the Streamer Plus menu. Change it in Options › Controls.</span></div>
+      <div class="cmd"><code>/birdmod</code><span>Open the menu from chat.</span></div>
+      <div class="cmd"><code>/payfx</code><span>Show every Money Alerts command.</span></div>
+      <div class="cmd"><code>/payfx stats</code><span>This session's money in, out, best payment and combo.</span></div>
+      <div class="cmd"><code>/payfx top payers</code><span>Open the leaderboards (payers, sent, hunters, targets, me).</span></div>
+      <div class="cmd"><code>/payfx scene rocket 1b</code><span>Preview any cinematic with any amount.</span></div>
+      <div class="cmd"><code>/payfx demo</code><span>Play every tier as a test. Nothing is saved.</span></div>
+      <div class="cmd"><code>/payfx goal 10b</code><span>Set a session goal, or <code>goal off</code>.</span></div>
+      <div class="cmd"><code>/payfx min 100k</code><span>Only alert for payments of this amount and up.</span></div>
+      <div class="cmd"><code>/payfx move</code><span>Drag alerts and boards where you want them.</span></div>
+      <div class="cmd"><code>/payfx on | off</code><span>Turn Money Alerts on or off.</span></div>
+      <div class="cmd"><code>/payfx reset</code><span>Start a new session. Your all-time stats stay.</span></div>
+    </div>
+    <p class="note" style="margin-top:16px">More keybinds (HUD on/off, edit HUD, timer, wheel, Spotify play, next and lyrics) can be set in Options › Controls under Streamer Plus.</p>
+  </div>
+</section>
+
+<!-- ============================================ DOWNLOAD -->
+<section id="download">
+  <div class="wrap">
+    <div class="head center reveal-up">
+      <span class="kicker">Download</span>
+      <h2>Free. Pick your version.</h2>
+      <p>Streamer Plus 2.0.1 for three Minecraft versions, with the same features in all three.</p>
+    </div>
+    <div class="versions">
+      <article class="ver main reveal-up" data-ver="26.3">
+        <div class="top"><span class="pill beta">Beta</span><span class="pill gold">Pre-release</span></div>
+        <div class="mc"><small>Minecraft</small>26.3</div>
+        <dl>
+          <dt>Status</dt><dd>Beta pre-release. It may still have bugs.</dd>
+          <dt>File</dt><dd><code>streamerplus-2.0.1-mc26.3.jar</code></dd>
+          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
+          <dt>Works in</dt><dd>Fabric, Modrinth, Lunar Client</dd>
+          <dt>SHA-256</dt><dd class="sha"><code>bc061564e75e3977e143ff96a33e34a9e02ac90e06221ecc0d6a84f167173e25</code><button class="copy" type="button">Copy</button></dd>
+        </dl>
+        <a class="btn btn-primary dl-btn" href="downloads/streamerplus-2.0.1-mc26.3.jar">Download 26.3 beta</a>
+        <p class="dl-note"></p>
+      </article>
+      <article class="ver reveal-up" data-ver="26.2">
+        <div class="top"><span class="pill">Stable</span></div>
+        <div class="mc"><small>Minecraft</small>26.2</div>
+        <dl>
+          <dt>File</dt><dd><code>streamerplus-2.0.1-mc26.2.jar</code></dd>
+          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
+          <dt>Works in</dt><dd>Fabric, Modrinth</dd>
+          <dt>SHA-256</dt><dd class="sha"><code>71ee5ebdec0366eb34d92ec4487ba8021bac90a16948124984251d64d9fefb7d</code><button class="copy" type="button">Copy</button></dd>
+        </dl>
+        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.0.1-mc26.2.jar">Download for 26.2</a>
+        <p class="dl-note"></p>
+      </article>
+      <article class="ver reveal-up" data-ver="1.21.11">
+        <div class="top"><span class="pill">Classic</span></div>
+        <div class="mc"><small>Minecraft</small>1.21.11</div>
+        <dl>
+          <dt>File</dt><dd><code>streamerplus-2.0.1-mc1.21.11.jar</code></dd>
+          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 21</dd>
+          <dt>Works in</dt><dd>Fabric, Modrinth</dd>
+          <dt>SHA-256</dt><dd class="sha"><code>73e299001a5cbd14aba4a5687f7c36f54b30dac32d7f0b8b2bc99d226b210e7f</code><button class="copy" type="button">Copy</button></dd>
+        </dl>
+        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.0.1-mc1.21.11.jar">Download for 1.21.11</a>
+        <p class="dl-note"></p>
+      </article>
+    </div>
+    <div class="req reveal-up">
+      <div><b>Fabric API</b>Get the Fabric API build for the same Minecraft version from Modrinth or CurseForge.</div>
+      <div><b>Java</b>The Minecraft launcher, Modrinth and Lunar already include the right Java. Nothing extra to install.</div>
+      <div><b>Why 200 MB?</b>The stream player is built in, so you don't need to install anything else.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ INSTALL -->
+<section id="install" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Install</span>
+      <h2>Up and running in a minute.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal-up"><h3>Make a Fabric profile</h3><p>In Modrinth, Lunar Client or the Fabric installer, make a Fabric profile for 26.3, 26.2 or 1.21.11.</p></div>
+      <div class="step reveal-up"><h3>Drop in two files</h3><p>Put the Streamer Plus file for your version and Fabric API into that profile's <code>mods</code> folder.</p></div>
+      <div class="step reveal-up"><h3>Press <kbd>End</kbd></h3><p>Launch the game and press End (or type <code>/birdmod</code>). A short setup walks you through linking your stream.</p></div>
+    </div>
+    <p class="tip reveal-up"><b>Lunar Client:</b> use a Fabric profile on 26.3 and add Fabric API next to Streamer Plus. Close Lunar completely before you replace the file with a new version.</p>
+  </div>
+</section>
+
+<!-- ============================================ CHANGELOG -->
+<section id="changelog">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">What's new</span>
+      <h2>Version 2.0.1</h2>
+    </div>
+    <div class="card log reveal-up">
+      <ul>
+        <li><b>Money Alerts, rebuilt:</b> 9 new cinematics (High Score, Money Wheel, Error Screen, Rocket, Slot Machine, Money Graph, UFO, Bank Heist, Top Donators), louder sounds and stronger effects.</li>
+        <li><b>Casino wins:</b> marquee lights chase around the screen, spotlights sweep, gold coins fly, the amount rolls up like a slot machine and lands with a hit, with BIG WIN, MEGA WIN and JACKPOT! banners. Each has its own switch.</li>
+        <li><b>Payment colors:</b> money you receive shows green in chat and money you send shows red. Both can be changed.</li>
+        <li><b>Tax lines:</b> DonutSMP payments with a tax note, like "(+$20K tax)", are now tracked.</li>
+        <li><b>Badges:</b> new Owner, Co-owner and Bug Hunter badges, shown even when the player is offline.</li>
+        <li><b>Friends:</b> buttons from the server's friends menu no longer get added as fake friends, and old ones are cleaned up.</li>
+        <li><b>Now on three versions:</b> Minecraft 26.3, 26.2 and 1.21.11, with Lunar Client support on 26.3.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ FAQ -->
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="head center reveal-up">
+      <span class="kicker">FAQ</span>
+      <h2>Good questions.</h2>
+    </div>
+    <div class="faq reveal-up">
+      <details open><summary>Is it safe for my account?</summary><p>Yes. Streamer Plus never asks for your password and never touches your Minecraft, Microsoft or Discord login. It only reads what the server already shows you, and it never sends money for you. Big /pay commands ask you first.</p></details>
+      <details><summary>How do I open it?</summary><p>Press End, or type /birdmod in chat. You can change the key in Options › Controls under Streamer Plus.</p></details>
+      <details><summary>Which version should I download?</summary><p>The one that matches your Minecraft version: 26.3, 26.2 or 1.21.11. Each button gives you the file built for that version only. If you play on Lunar Client, use 26.3. The 26.3 build is a beta pre-release, so report any bugs in the Discord.</p></details>
+      <details><summary>Does it work with Lunar Client?</summary><p>Yes, on 26.3. Make a Fabric profile in Lunar, add Fabric API next to Streamer Plus, and you're set. Close Lunar before you swap in a new version.</p></details>
+      <details><summary>Which servers does Money Alerts work on?</summary><p>It's made for DonutSMP and understands its payment and tax messages. Other servers work too if they announce payments the same way, like "Name paid you $1M".</p></details>
+      <details><summary>Does it work on Mac?</summary><p>Streams, chat, Money Alerts and everything else work on Windows and macOS. The Spotify page uses Windows' media controls, so it's Windows only for now.</p></details>
+      <details><summary>What do "online features" do?</summary><p>They show badges next to other Streamer Plus users and let watch parties sync through a public relay. You can switch them off in Settings and everything else keeps working.</p></details>
+      <details><summary>Where are my settings and stats saved?</summary><p>On your computer, in the <code>config/birdmod</code> folder of your Minecraft profile. Copy that folder to keep your stats when you move to a new profile.</p></details>
+      <details><summary>Why is the download so big?</summary><p>The video player that shows your stream is built into the mod, so you don't have to install anything else.</p></details>
+      <details><summary>How do I check my download?</summary><p>Each download lists its SHA-256. On Windows, run <code>Get-FileHash</code> on the file in PowerShell and make sure the result matches.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <div class="box reveal-up">
+      <img src="img/icon.png" width="72" height="72" alt="">
+      <h2>Your next stream deserves this.</h2>
+      <p>Free to download and set up in a minute. Join the Discord for updates, help and sneak peeks.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#download">Download Streamer Plus</a>
+        <a class="btn btn-ghost" href="https://discord.gg/FCxrtehcb6" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 5.3A17 17 0 0 0 15.4 4l-.5 1a15.7 15.7 0 0 0-5.8 0l-.5-1a17 17 0 0 0-4.2 1.3C1.7 9.4 1 13.4 1.3 17.3A17 17 0 0 0 6.5 20l1.1-1.8c-.6-.2-1.2-.5-1.7-.9l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3c-.5.4-1.1.7-1.7.9l1.1 1.8a17 17 0 0 0 5.2-2.7c.4-4.5-.7-8.5-3.1-12zM8.5 14.9c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1zm7 0c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1z"/></svg>
+          Join the Discord
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/icon.png" width="34" height="34" alt="">Streamer Plus</a>
+    <nav aria-label="Footer"><a href="#features">Features</a><a href="#everything">Everything</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="https://discord.gg/FCxrtehcb6" target="_blank" rel="noopener">Discord</a></nav>
+    <span>© 2026 Streamer Plus. Not affiliated with Mojang, Microsoft, DonutSMP, Twitch, YouTube, TikTok or Spotify.</span>
+  </div>
+</footer>
+
+<script>
+/* -------- Downloads --------
+   By default each button downloads the jar from the "downloads" folder next to this page.
+   If you host the jars somewhere else (GitHub Releases, Modrinth, CurseForge), paste the links here.
+   Each version gets ONLY its own jar: never point one version's button at another version's file. */
+const DOWNLOAD_LINKS = {
+  "26.3": "https://github.com/thebridy002/Streamer-Plus/releases/download/v2.0.1/streamerplus-2.0.1-mc26.3.jar", // beta pre-release
+  "26.2": "",
+  "1.21.11": ""
+};
+const DISCORD = "https://discord.gg/FCxrtehcb6";
+
+document.querySelectorAll(".ver[data-ver]").forEach(card => {
+  const btn = card.querySelector(".dl-btn"), note = card.querySelector(".dl-note");
+  const link = DOWNLOAD_LINKS[card.dataset.ver];
+  if (link) { btn.href = link; btn.target = "_blank"; btn.rel = "noopener"; return; }
+  // Check the bundled file is really there; if not, send people to the Discord instead of a broken link.
+  const fallback = () => {
+    btn.href = DISCORD; btn.target = "_blank"; btn.rel = "noopener";
+    btn.textContent = "Get " + card.dataset.ver + " on Discord";
+    note.textContent = "Direct download isn't available on this page yet.";
+  };
+  if (location.protocol === "file:") return; // opened from disk: the file is right there
+  fetch(btn.getAttribute("href"), { method: "HEAD", cache: "no-store" })
+    .then(r => { const t = r.headers.get("content-type") || ""; if (!r.ok || t.includes("text/html")) fallback(); })
+    .catch(fallback);
+});
+
+document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", async () => {
+  const code = b.previousElementSibling, text = code.textContent.trim();
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+    try { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); ok = document.execCommand("copy"); } catch (e2) {}
+  }
+  b.textContent = ok ? "Copied" : "Select";
+  setTimeout(() => { b.textContent = "Copy"; }, 1600);
+}));
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const nav = document.getElementById("nav");
+const onScroll = () => nav.classList.toggle("scrolled", scrollY > 10);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".reveal-up").forEach(el => io.observe(el));
+  // anything already on screen, or jumped to with a link, should never stay hidden
+  setTimeout(() => document.querySelectorAll(".reveal-up").forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add("in"); }), 1200);
+} else document.documentElement.classList.add("no-io");
+
+// -------- theme switcher (real screenshots)
+const themeImg = document.getElementById("themeImg"), themeCap = document.getElementById("themeCap");
+let preloaded = false;
+function preloadThemes() { if (preloaded) return; preloaded = true; document.querySelectorAll("#swatches [data-t]").forEach(b => { const i = new Image(); i.src = `img/theme-${b.dataset.t}.jpg`; }); }
+document.getElementById("themes").addEventListener("pointerenter", preloadThemes, { once: true });
+document.getElementById("swatches").addEventListener("click", e => {
+  const b = e.target.closest("[data-t]"); if (!b) return;
+  preloadThemes();
+  document.querySelectorAll("#swatches .sw").forEach(s => s.setAttribute("aria-pressed", s === b ? "true" : "false"));
+  const name = b.textContent.trim(), full = b.dataset.t.startsWith("dash") || b.dataset.t === "dashboard" ? name + " Dashboard" : name;
+  themeImg.style.opacity = .25;
+  const next = new Image(); next.src = `img/theme-${b.dataset.t}.jpg`;
+  const swap = () => { themeImg.src = next.src; themeImg.alt = `Dashboard in the ${full} theme`; themeImg.style.opacity = 1; };
+  next.complete ? setTimeout(swap, 120) : (next.onload = next.onerror = swap);
+  themeCap.innerHTML = `<b>${full}.</b> ${b.dataset.d}`;
+});
+
+// -------- payment demo
+const fmt = v => v >= 1e12 ? +(v/1e12).toFixed(2)+"T" : v >= 1e9 ? +(v/1e9).toFixed(2)+"B" : v >= 1e6 ? +(v/1e6).toFixed(2)+"M" : v >= 1e3 ? +(v/1e3).toFixed(2)+"K" : String(v);
+const TIERS = [[1e10,"COSMIC","#ffffff"],[1e9,"MYTHIC","#ff5a36"],[1e8,"LEGENDARY","#fbbf24"],[1e7,"EPIC","#f472b6"],[1e6,"RARE","#a78bfa"],[1e5,"UNCOMMON","#38bdf8"],[1e4,"COMMON","#4ade80"],[0,"PAYMENT","#9ca3af"]];
+const tier = v => TIERS.find(t => v >= t[0]);
+
+function confetti(canvas) {
+  const ctx = canvas.getContext("2d"); let parts = [], raf = 0;
+  return n => {
+    if (reduce || !ctx) return;
+    const r = canvas.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1);
+    if (!raf) { canvas.width = r.width * d; canvas.height = r.height * d; }
+    for (let i = 0; i < n; i++) parts.push({ x: canvas.width/2 + (Math.random()-.5)*60*d, y: canvas.height*.35, vx: (Math.random()-.5)*620*d, vy: -(200+Math.random()*420)*d, life: 2+Math.random()*1.6, s: (3+Math.random()*4)*d, c: `hsl(${Math.random()*360} 95% 65%)`, rot: Math.random()*6 });
+    if (parts.length > 700) parts.splice(0, parts.length - 700);
+    if (raf) return;
+    let last = performance.now();
+    const step = t => {
+      const dt = Math.min(.05, (t - last) / 1000); last = t;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      parts = parts.filter(p => (p.life -= dt) > 0 && p.y < canvas.height + 30);
+      for (const p of parts) { p.vy += 900*d*dt; p.vx *= .985; p.x += p.vx*dt; p.y += p.vy*dt; p.rot += dt*8;
+        ctx.save(); ctx.globalAlpha = Math.min(1, p.life/.6); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c; ctx.fillRect(-p.s/2, -p.s/2, p.s, p.s*.6); ctx.restore(); }
+      raf = parts.length ? requestAnimationFrame(step) : 0;
+      if (!raf) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+    raf = requestAnimationFrame(step);
+  };
+}
+const burst = confetti(document.getElementById("stageConfetti"));
+const stage = document.getElementById("stage");
+let amount = 1e9, scene = "rocket", counterRun = 0;
+function pick(groupId, attr, set) {
+  document.getElementById(groupId).addEventListener("click", e => {
+    const b = e.target.closest(`[${attr}]`); if (!b) return;
+    document.querySelectorAll(`#${groupId} .chip`).forEach(c => c.setAttribute("aria-pressed", c === b ? "true" : "false"));
+    set(b.getAttribute(attr));
+  });
+}
+pick("amounts", "data-amt", v => { amount = +v; play(); });
+pick("scenes", "data-scene", v => { scene = v; if (amount >= 5e7) play(); });
+document.getElementById("send").addEventListener("click", play);
+
+const SCENES = {
+  rocket: a => ({ bg: "radial-gradient(circle at 50% 130%, #2563eb 0 28%, transparent 29%), radial-gradient(circle at 20% 20%, #fff 0 1px, transparent 2px) 0 0/60px 60px, #02040e", html: `<div class="title" style="color:#67e8f9">★ TO THE MOON ★</div><div class="amount">$${fmt(a)}</div><div class="from">from Notch</div>` }),
+  score: a => ({ bg: "#010a03", lines: true, html: `<div class="title" style="color:#fde047">NEW HIGH SCORE!</div><div class="amount" style="color:#dcfce7;text-shadow:none;font-size:clamp(22px,5.4vw,56px)" data-count="${a}">0</div><div class="from" style="color:#4ade80">PLAYER 1: NOTCH · INSERT COIN</div>` }),
+  ufo: a => ({ bg: "radial-gradient(ellipse 120px 300px at 50% 0%, rgba(74,222,128,.25), transparent 70%), linear-gradient(180deg,#020617,#020617 55%,#0b1430)", html: `<div class="title" style="color:#4ade80">UFO SIGHTING AT DONUT SMP</div><div class="amount">$${fmt(a)}</div><div class="from">THEY TOOK NOTCH AND THE CASH</div>` }),
+  heist: a => ({ bg: "repeating-linear-gradient(-35deg, transparent 0 60px, rgba(255,30,30,.5) 60px 62px), #1a0000", html: `<div class="title" style="color:#f87171">BANK HEIST IN PROGRESS…</div><div class="amount" style="color:#fde047">$${fmt(a)}</div><div class="from">NOTCH CRACKED THE DONUT VAULT</div>` }),
+  slots: a => ({ bg: "radial-gradient(circle at 50% 40%, #3b0764, #0a0d14 70%)", html: `<div class="title" style="color:#fbbf24;font-size:clamp(26px,5vw,46px)">7 · 7 · 7</div><div class="amount">JACKPOT!</div><div class="from">$${fmt(a)} from Notch</div>` }),
+  error: a => ({ bg: "#0b1fa8", html: `<div class="title" style="color:#fff">:( SYSTEM OVERLOAD</div><div class="amount" style="color:#fff;text-shadow:4px 4px 0 #000">$${fmt(a)}</div><div class="from">TOO MUCH MONEY FROM NOTCH · RESTARTING…</div>` })
+};
+function play() {
+  const a = amount, t = tier(a), run = ++counterRun;
+  const old = stage.querySelector(".scene"); if (old) old.remove();
+  const el = document.createElement("div"); el.className = "scene";
+  if (a >= 5e7) {
+    const s = SCENES[scene](a);
+    el.style.background = s.bg;
+    el.innerHTML = `<div class="inner">${s.html}</div>` + (s.lines ? `<div class="scanlines"></div>` : "");
+    const ctr = el.querySelector("[data-count]");
+    if (ctr) { const target = +ctr.dataset.count, start = performance.now(), dur = reduce ? 0 : 1600;
+      const tick = now => { if (run !== counterRun) return; const p = dur ? Math.min(1, (now - start) / dur) : 1; ctr.textContent = Math.round(target * (1 - Math.pow(1 - p, 4))).toLocaleString("en-US"); if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick); }
+    burst(a >= 1e10 ? 320 : 220);
+  } else {
+    el.style.background = `radial-gradient(circle at 50% 45%, ${t[2]}33, transparent 60%), #06080d`;
+    el.innerHTML = `<div class="inner"><div class="title" style="color:${t[2]}">* ${t[1]} PAYMENT *</div><div class="amount" style="font-size:clamp(32px,6vw,60px)">$${fmt(a)}</div><div class="from">from Notch</div></div>`;
+    burst(a >= 1e7 ? 110 : a >= 1e6 ? 50 : 14);
+  }
+  stage.prepend(el);
+  if (!reduce && a >= 1e6) { stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake"); }
+}
+</script>
+</body>
+</html>
+
+</body></html>
