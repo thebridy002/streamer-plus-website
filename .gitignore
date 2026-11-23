@@ -1,0 +1,4 @@
+# Mod jars are too big for git and Vercel; upload them to GitHub Releases.
+downloads/
+*.jar
+.vercel

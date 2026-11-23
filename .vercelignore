@@ -1,0 +1,4 @@
+# The mod jars (about 200 MB each) are far over Vercel's file size limit.
+# They are served from GitHub Releases instead: set the links in DOWNLOAD_LINKS in index.html.
+downloads/
+*.jar
