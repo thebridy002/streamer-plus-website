@@ -330,6 +330,40 @@ footer a:hover { color: var(--text); }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal-up { opacity: 1; transform: none; }
 }
+
+/* ---- 2.1: stream-first hero, watch section, skies, what's new */
+.stage { position: relative; width: 100%; max-width: 1100px; box-sizing: border-box; margin: 56px auto 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--line-2); box-shadow: 0 40px 120px -40px rgba(139,92,246,.55), 0 20px 60px -30px #000; aspect-ratio: 16 / 9; background: #0b0916 url(img/hero-world.jpg) center / cover; }
+.stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,7,15,0) 55%, rgba(9,7,15,.55)); pointer-events: none; }
+.stage .screen { position: absolute; left: 14%; top: 9%; width: 54%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000 url(img/hero-screen.jpg) center / cover; box-shadow: 0 0 0 5px #15121f, 0 0 0 6px rgba(255,255,255,.14), 0 0 70px rgba(139,92,246,.5); transform: perspective(1400px) rotateY(9deg) rotateX(2deg); transform-origin: left center; }
+.stage .screen .tag { position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center; font: 700 11px/1 var(--body); }
+.stage .screen .tag b { background: #e5243b; color: #fff; padding: 4px 7px; border-radius: 6px; letter-spacing: .06em; }
+.stage .screen .tag span { background: rgba(9,7,15,.7); color: #fff; padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(6px); }
+.stage .screen .ctrl { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 12px 10px; background: linear-gradient(180deg, transparent, rgba(0,0,0,.7)); }
+.stage .screen .ctrl i { display: block; height: 4px; border-radius: 3px; background: rgba(255,255,255,.25); overflow: hidden; }
+.stage .screen .ctrl i::before { content: ""; display: block; height: 100%; width: 38%; background: #a78bfa; animation: play 14s linear infinite; }
+@keyframes play { from { width: 8%; } to { width: 92%; } }
+.stage .chat { position: absolute; right: 3.5%; top: 12%; width: 23%; padding: 10px; border-radius: 12px; background: rgba(14,11,24,.62); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(10px); font-size: 12px; line-height: 1.45; display: grid; gap: 6px; text-align: left; }
+.stage .chat b { color: #c4b5fd; font-weight: 700; margin-right: 4px; }
+.stage .chat .h { font: 700 10px/1 var(--body); letter-spacing: .14em; color: var(--faint); text-transform: uppercase; }
+.stage figcaption { position: absolute; right: 12px; bottom: 10px; z-index: 1; font-size: 11px; color: rgba(255,255,255,.6); }
+@media (max-width: 760px) { .stage .chat { display: none; } .stage .screen { left: 7%; width: 86%; top: 12%; transform: none; } }
+.watch-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 34px; }
+.watch-grid .card h3 { display: flex; align-items: center; gap: 10px; }
+.watch-grid .num { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: rgba(139,92,246,.18); color: var(--violet-2); font: 800 14px/1 var(--display); flex: none; }
+.watch-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 26px; margin: 28px 0 0; padding: 0; list-style: none; color: var(--dim); }
+.watch-list li { padding-left: 22px; position: relative; }
+.watch-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 10px var(--violet); }
+@media (max-width: 860px) { .watch-grid, .watch-list { grid-template-columns: 1fr; } }
+.sky-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
+.sky-grid figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--ink-2); }
+.sky-grid img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; transition: transform .4s; }
+.sky-grid figure:hover img { transform: scale(1.05); }
+.sky-grid figcaption { padding: 8px 12px; font: 600 13px/1.2 var(--body); }
+@media (max-width: 860px) { .sky-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.new-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.new-grid .card img { width: 100%; border-radius: 10px; border: 1px solid var(--line); margin-top: 12px; display: block; }
+.new-grid ul { margin: 8px 0 0; padding-left: 18px; color: var(--dim); }
+@media (max-width: 860px) { .new-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -338,10 +372,10 @@ footer a:hover { color: var(--text); }
   <div class="wrap">
     <a class="brand" href="#top"><img src="img/icon.png" width="34" height="34" alt="">Streamer Plus</a>
     <nav class="nav-links" aria-label="Sections">
+      <a href="#watch">Watch</a>
+      <a href="#new">What's new</a>
       <a href="#features">Features</a>
       <a href="#money">Money Alerts</a>
-      <a href="#everything">Everything</a>
-      <a href="#themes">Themes</a>
       <a href="#download">Download</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -353,23 +387,29 @@ footer a:hover { color: var(--text); }
 <section class="hero" id="top">
   <div class="glow-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <a class="badge-row" href="#changelog"><b>2.0.1</b><span>15 payment cinematics, louder than ever →</span></a>
-    <h1>Stream it. Play it. <span class="shine">Get paid loud.</span></h1>
-    <p class="lede">Streamer Plus brings your live stream, your chat and every payment you get into Minecraft. No more alt-tabbing, and your viewers see every big moment as it happens.</p>
+    <a class="badge-row" href="#new"><b>2.1.0</b><span>Utilities, 24 skies and liquid glass menus →</span></a>
+    <h1>Watch streams and videos <span class="shine">inside Minecraft.</span></h1>
+    <p class="lede">Put a Twitch, YouTube or TikTok live stream, or any YouTube video, on a big screen in your world. Follow a farm tutorial while you build it, copy a base design step by step, or keep your favorite streamer on while you grind. No alt-tabbing, no second monitor.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#download">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
         Download free
       </a>
-      <a class="btn btn-ghost" href="#try">See an alert</a>
+      <a class="btn btn-ghost" href="#watch">How watching works</a>
     </div>
     <div class="meta-row"><span>Free</span><span>Minecraft 26.3 · 26.2 · 1.21.11</span><span>Fabric and Lunar Client</span><span>Never asks for your password</span></div>
 
-    <div class="showcase">
-      <div class="window"><img src="img/theme-aurora.jpg" width="1200" height="682" alt="The Streamer Plus dashboard in game with the Aurora theme, showing money, kills, deaths, playtime and balance"></div>
-      <div class="float reveal"><img src="img/reveal-rare.jpg" width="820" height="300" alt="A $2.5M payment alert from Alex with a combo and a new record, covered in confetti"></div>
-      <div class="float wheel"><img src="img/wheel.jpg" width="820" height="784" alt="The donation wheel with player heads"></div>
-    </div>
+    <figure class="stage" aria-label="A video playing on a big screen inside a Minecraft world, with chat beside it">
+      <div class="screen"><div class="tag"><b>▶ PLAYING</b><span>Building a farm, step by step</span></div><div class="ctrl"><i></i></div></div>
+      <div class="chat" aria-hidden="true">
+        <span class="h">Chat</span>
+        <span><b>You</b>building this right now</span>
+        <span><b>Friend</b>same, watch party?</span>
+        <span><b>Viewer</b>the hopper goes under it</span>
+        <span><b>You</b>got it, thanks!</span>
+      </div>
+      <figcaption>Illustration</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -391,12 +431,81 @@ footer a:hover { color: var(--text); }
 
 <div class="wrap">
   <div class="numbers reveal-up">
+    <div><b>3</b><span>live platforms: Twitch, YouTube, TikTok</span></div>
+    <div><b>24</b><span>custom skies</span></div>
     <div><b>20+</b><span>tools in one menu</span></div>
-    <div><b>15</b><span>payment cinematics</span></div>
-    <div><b>14</b><span>menu themes</span></div>
     <div><b>3</b><span>Minecraft versions</span></div>
   </div>
 </div>
+
+<!-- ============================================ WATCH -->
+<section id="watch">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">Watch in Minecraft</span>
+      <h2>Your stream, your tutorial, right in your world.</h2>
+      <p>The video player is built into the mod: nothing else to install, no browser on the side. It plays with sound, in up to 1080p, on a screen you place anywhere.</p>
+    </div>
+    <div class="watch-grid">
+      <div class="card reveal-up"><h3><span class="num">1</span>Watch a streamer live</h3><p>Pick Twitch, YouTube or TikTok, type their name and press Watch. Their stream appears in your world.</p></div>
+      <div class="card reveal-up"><h3><span class="num">2</span>Or play any video</h3><p>Paste a YouTube or TikTok link: a farm tutorial, a base build, a redstone guide, music. Build along without leaving the game.</p></div>
+      <div class="card reveal-up"><h3><span class="num">3</span>Put it where you want</h3><p>A big screen in the world that you can lock in place, or a small box in a corner of your screen while you play.</p></div>
+    </div>
+    <ul class="watch-list reveal-up">
+      <li>Live chat beside the screen</li>
+      <li>Watch parties: friends see the same stream, in sync</li>
+      <li>"As live as possible" or smooth playback</li>
+      <li>Picks up where you left off after a restart</li>
+      <li>Twitch, YouTube and TikTok chat in one box</li>
+      <li>Works on Windows and macOS</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================ NEW IN 2.1 -->
+<section id="new" class="alt">
+  <div class="wrap">
+    <div class="head reveal-up">
+      <span class="kicker">New in 2.1.0</span>
+      <h2>24 skies, a Utilities tab and liquid glass.</h2>
+      <p>Everything here only changes what you see on your own screen. Nothing is sent to the server.</p>
+    </div>
+    <div class="sky-grid reveal-up">
+      <figure><img src="img/sky-realsky.jpg" width="640" height="360" loading="lazy" alt="Real Sky at sunset: the sun setting over a forest"><figcaption>Real Sky</figcaption></figure>
+      <figure><img src="img/sky-cumulus.jpg" width="640" height="360" loading="lazy" alt="Cumulus Day: big soft clouds and the sun"><figcaption>Cumulus Day</figcaption></figure>
+      <figure><img src="img/sky-goldenmorning.jpg" width="640" height="360" loading="lazy" alt="Golden Morning: a sunrise glow under wispy clouds"><figcaption>Golden Morning</figcaption></figure>
+      <figure><img src="img/sky-dramatic.jpg" width="640" height="360" loading="lazy" alt="Dramatic Sunset: dark clouds with glowing edges"><figcaption>Dramatic Sunset</figcaption></figure>
+      <figure><img src="img/sky-arctic.jpg" width="640" height="360" loading="lazy" alt="Arctic Aurora: teal northern lights"><figcaption>Arctic Aurora</figcaption></figure>
+      <figure><img src="img/sky-nebula.jpg" width="640" height="360" loading="lazy" alt="Nebula: pink and teal cosmic clouds with a moon"><figcaption>Nebula</figcaption></figure>
+      <figure><img src="img/sky-redaurora.jpg" width="640" height="360" loading="lazy" alt="Red Aurora: red northern lights and stars"><figcaption>Red Aurora</figcaption></figure>
+      <figure><img src="img/sky-meteors.jpg" width="640" height="360" loading="lazy" alt="Meteor Shower: a bright moon and stars"><figcaption>Meteor Shower</figcaption></figure>
+    </div>
+    <div class="new-grid">
+      <div class="card reveal-up">
+        <h3>Utilities</h3>
+        <ul>
+          <li>FPS &amp; Ping box with live colors</li>
+          <li>Smooth zoom (C) with scroll-to-zoom</li>
+          <li>Freelook (Left Alt): look around without turning</li>
+          <li>Fullbright, see-through menus</li>
+          <li>Time and weather on your screen only</li>
+        </ul>
+        <img src="img/utilities.jpg" width="1100" height="691" loading="lazy" alt="The Utilities tab in the Streamer Plus menu">
+      </div>
+      <div class="card reveal-up">
+        <h3>Liquid glass menus</h3>
+        <ul>
+          <li>Glass inventories and chests, server menus too</li>
+          <li>Glass buttons and server list</li>
+          <li>An animated sky behind Minecraft's menus</li>
+          <li>Menu and HUD size that stays comfortable on Auto GUI scale</li>
+          <li>Who's talking list for Simple Voice Chat</li>
+        </ul>
+        <img src="img/glass-serverlist.jpg" width="1100" height="619" loading="lazy" alt="The multiplayer server list on clear glass over an animated northern-lights sky">
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================ FEATURES -->
 <section id="features">
@@ -425,9 +534,9 @@ footer a:hover { color: var(--text); }
 
       <article class="tile w3 reveal-up">
         <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <h3>Your stream on a screen in your world</h3>
-        <p>Paste a Twitch, YouTube or TikTok link and it plays on a screen you place anywhere, with sound, in up to 1080p. The player is built in, so there's nothing else to install.</p>
-        <div class="shot"><img src="img/graph.jpg" width="556" height="230" loading="lazy" alt="Session graph showing +$7.6M earned during a stream"></div>
+        <h3>Streams and videos on a screen in your world</h3>
+        <p>Paste a Twitch, YouTube or TikTok link and it plays on a screen you place anywhere, with sound, in up to 1080p. Tutorials, builds, your favorite streamer: <a href="#watch">see how it works</a>.</p>
+        <div class="shot"><img src="img/hero-world.jpg" width="1400" height="788" loading="lazy" alt="A Minecraft world at sunset with the Real Sky look"></div>
       </article>
 
       <article class="tile w3 reveal-up">
@@ -729,7 +838,7 @@ footer a:hover { color: var(--text); }
     <div class="head center reveal-up">
       <span class="kicker">Download</span>
       <h2>Free. Pick your version.</h2>
-      <p>Streamer Plus 2.0.1 for three Minecraft versions, with the same features in all three.</p>
+      <p>Streamer Plus 2.1.0 for three Minecraft versions, with the same features in all three.</p>
     </div>
     <div class="versions">
       <article class="ver main reveal-up" data-ver="26.3">
@@ -737,39 +846,39 @@ footer a:hover { color: var(--text); }
         <div class="mc"><small>Minecraft</small>26.3</div>
         <dl>
           <dt>Status</dt><dd>Beta pre-release. It may still have bugs.</dd>
-          <dt>File</dt><dd><code>streamerplus-2.0.1-mc26.3.jar</code></dd>
-          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>File</dt><dd><code>streamerplus-2.1.0-mc26.3.jar</code></dd>
+          <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth, Lunar Client</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>bc061564e75e3977e143ff96a33e34a9e02ac90e06221ecc0d6a84f167173e25</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>9aeacdf55ff861feba0cfbfd45c1fb71a50c201bfcc7c26130d9250cb7180a80</code><button class="copy" type="button">Copy</button></dd>
         </dl>
-        <a class="btn btn-primary dl-btn" href="downloads/streamerplus-2.0.1-mc26.3.jar">Download 26.3 beta</a>
+        <a class="btn btn-primary dl-btn" href="downloads/streamerplus-2.1.0-mc26.3.jar">Download 26.3 beta</a>
         <p class="dl-note"></p>
       </article>
       <article class="ver reveal-up" data-ver="26.2">
         <div class="top"><span class="pill">Stable</span></div>
         <div class="mc"><small>Minecraft</small>26.2</div>
         <dl>
-          <dt>File</dt><dd><code>streamerplus-2.0.1-mc26.2.jar</code></dd>
-          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>File</dt><dd><code>streamerplus-2.1.0-mc26.2.jar</code></dd>
+          <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>71ee5ebdec0366eb34d92ec4487ba8021bac90a16948124984251d64d9fefb7d</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>5ff07de65f2f05d7801db3032f1fcf940003b7178cc1226385c9a829fad8d853</code><button class="copy" type="button">Copy</button></dd>
         </dl>
-        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.0.1-mc26.2.jar">Download for 26.2</a>
+        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc26.2.jar">Download for 26.2</a>
         <p class="dl-note"></p>
       </article>
       <article class="ver reveal-up" data-ver="1.21.11">
         <div class="top"><span class="pill">Classic</span></div>
         <div class="mc"><small>Minecraft</small>1.21.11</div>
         <dl>
-          <dt>File</dt><dd><code>streamerplus-2.0.1-mc1.21.11.jar</code></dd>
-          <dt>Size</dt><dd>201.7 MB</dd>
+          <dt>File</dt><dd><code>streamerplus-2.1.0-mc1.21.11.jar</code></dd>
+          <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 21</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>73e299001a5cbd14aba4a5687f7c36f54b30dac32d7f0b8b2bc99d226b210e7f</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>d467d591a2e7a2b90dee46e8b9c113ed0cdfeb5b2055c8eee9585deee2379892</code><button class="copy" type="button">Copy</button></dd>
         </dl>
-        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.0.1-mc1.21.11.jar">Download for 1.21.11</a>
+        <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc1.21.11.jar">Download for 1.21.11</a>
         <p class="dl-note"></p>
       </article>
     </div>
@@ -802,6 +911,20 @@ footer a:hover { color: var(--text); }
   <div class="wrap">
     <div class="head reveal-up">
       <span class="kicker">What's new</span>
+      <h2>Version 2.1.0</h2>
+    </div>
+    <div class="card log reveal-up">
+      <ul>
+        <li><b>Utilities tab:</b> FPS &amp; Ping box, smooth zoom with scroll-to-zoom, freelook, fullbright, see-through menus, time and weather on your screen only, and payment safety in one place.</li>
+        <li><b>24 skies:</b> Real Sky with the real sun, moon and clouds through the day, realistic cloud skies and sunsets, northern lights, galaxy and nebula. Works in the overworld and the End.</li>
+        <li><b>Liquid glass:</b> glass inventories, chests (server menus too), buttons, the server list and Simple Voice Chat's menu, with an animated sky behind Minecraft's menus.</li>
+        <li><b>Menu and HUD size:</b> Auto now picks a comfortable size even on Minecraft's Auto GUI scale; or choose Small, Medium, Large or Game. The layout editor has − / + size buttons and folds away.</li>
+        <li><b>Who's talking:</b> heads and a live sound meter for whoever speaks in Simple Voice Chat.</li>
+        <li><b>Purchases in blue:</b> things you buy in the auction house stand out in chat.</li>
+        <li><b>Faster:</b> the Sky tab no longer slows the menu down.</li>
+      </ul>
+    </div>
+    <div class="head reveal-up" style="margin-top:34px">
       <h2>Version 2.0.1</h2>
     </div>
     <div class="card log reveal-up">
@@ -827,8 +950,11 @@ footer a:hover { color: var(--text); }
     </div>
     <div class="faq reveal-up">
       <details open><summary>Is it safe for my account?</summary><p>Yes. Streamer Plus never asks for your password and never touches your Minecraft, Microsoft or Discord login. It only reads what the server already shows you, and it never sends money for you. Big /pay commands ask you first.</p></details>
+      <details><summary>Can I watch YouTube tutorials while I play?</summary><p>Yes. Open the Stream page, paste any YouTube or TikTok video link and it plays on a screen in your world (or in a corner of your screen). Great for following a farm or base tutorial step by step.</p></details>
+      <details><summary>Which streams can I watch?</summary><p>Live streams from Twitch, YouTube and TikTok, plus YouTube and TikTok videos. You can watch together with friends in a watch party.</p></details>
+      <details><summary>The menu is too big on Auto GUI scale. Can I make it smaller?</summary><p>Yes. In Themes or Utilities, set Menu size and HUD size. Auto picks a comfortable size for your screen whatever Minecraft's GUI scale is.</p></details>
       <details><summary>How do I open it?</summary><p>Press End, or type /birdmod in chat. You can change the key in Options › Controls under Streamer Plus.</p></details>
-      <details><summary>Which version should I download?</summary><p>The one that matches your Minecraft version: 26.3, 26.2 or 1.21.11. Each button gives you the file built for that version only. If you play on Lunar Client, use 26.3. The 26.3 build is a beta pre-release, so report any bugs in the Discord.</p></details>
+      <details><summary>Which version should I download?</summary><p>The one that matches your Minecraft version: 26.3, 26.2 or 1.21.11. Each button gives you the file built for that version only. If you play on Lunar Client, use 26.3. The 26.3 build is a beta, so report any bugs in the Discord.</p></details>
       <details><summary>Does it work with Lunar Client?</summary><p>Yes, on 26.3. Make a Fabric profile in Lunar, add Fabric API next to Streamer Plus, and you're set. Close Lunar before you swap in a new version.</p></details>
       <details><summary>Which servers does Money Alerts work on?</summary><p>It's made for DonutSMP and understands its payment and tax messages. Other servers work too if they announce payments the same way, like "Name paid you $1M".</p></details>
       <details><summary>Does it work on Mac?</summary><p>Streams, chat, Money Alerts and everything else work on Windows and macOS. The Spotify page uses Windows' media controls, so it's Windows only for now.</p></details>
@@ -861,7 +987,7 @@ footer a:hover { color: var(--text); }
 <footer>
   <div class="wrap">
     <a class="brand" href="#top"><img src="img/icon.png" width="34" height="34" alt="">Streamer Plus</a>
-    <nav aria-label="Footer"><a href="#features">Features</a><a href="#everything">Everything</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="https://discord.gg/FCxrtehcb6" target="_blank" rel="noopener">Discord</a></nav>
+    <nav aria-label="Footer"><a href="#watch">Watch</a><a href="#new">What's new</a><a href="#features">Features</a><a href="#everything">Everything</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="https://discord.gg/FCxrtehcb6" target="_blank" rel="noopener">Discord</a></nav>
     <span>© 2026 Streamer Plus. Not affiliated with Mojang, Microsoft, DonutSMP, Twitch, YouTube, TikTok, Spotify, Fabric, Lunar Client or Modrinth. Logos belong to their owners.</span>
   </div>
 </footer>
@@ -871,10 +997,17 @@ footer a:hover { color: var(--text); }
    By default each button downloads the jar from the "downloads" folder next to this page.
    If you host the jars somewhere else (GitHub Releases, Modrinth, CurseForge), paste the links here.
    Each version gets ONLY its own jar: never point one version's button at another version's file. */
-const DOWNLOAD_LINKS = {
-  "26.3": "https://github.com/thebridy002/Streamer-Plus/releases/download/v2.0.1/streamerplus-2.0.1-mc26.3.jar", // beta pre-release
-  "26.2": "",
-  "1.21.11": ""
+const RELEASE = "https://github.com/thebridy002/Streamer-Plus/releases/download/v2.1.0/";
+// true once the three 2.1.0 jars are uploaded to the v2.1.0 GitHub release; until then the buttons open the releases page
+const RELEASE_READY = false;
+const DOWNLOAD_LINKS = RELEASE_READY ? {
+  "26.3": RELEASE + "streamerplus-2.1.0-mc26.3.jar", // beta
+  "26.2": RELEASE + "streamerplus-2.1.0-mc26.2.jar",
+  "1.21.11": RELEASE + "streamerplus-2.1.0-mc1.21.11.jar"
+} : {
+  "26.3": "https://github.com/thebridy002/Streamer-Plus/releases",
+  "26.2": "https://github.com/thebridy002/Streamer-Plus/releases",
+  "1.21.11": "https://github.com/thebridy002/Streamer-Plus/releases"
 };
 const DISCORD = "https://discord.gg/FCxrtehcb6";
 
