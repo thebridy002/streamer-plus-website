@@ -354,6 +354,13 @@ footer a:hover { color: var(--text); }
 .watch-list li { padding-left: 22px; position: relative; }
 .watch-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 10px var(--violet); }
 @media (max-width: 860px) { .watch-grid, .watch-list { grid-template-columns: 1fr; } }
+.studio-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+.studio-grid figure { margin: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--ink-2); }
+.studio-grid img { width: 100%; aspect-ratio: 1200 / 751; object-fit: cover; display: block; transition: transform .4s; }
+.studio-grid figure:hover img { transform: scale(1.03); }
+.studio-grid figcaption { padding: 12px 14px; font-size: 14px; color: var(--muted, #a8a3b8); }
+.studio-grid figcaption b { color: #fff; display: block; font-size: 15px; margin-bottom: 3px; }
+@media (max-width: 760px) { .studio-grid { grid-template-columns: 1fr; } }
 .sky-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
 .sky-grid figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--ink-2); }
 .sky-grid img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; transition: transform .4s; }
@@ -466,7 +473,22 @@ footer a:hover { color: var(--text); }
 <section id="new" class="alt">
   <div class="wrap">
     <div class="head reveal-up">
-      <span class="kicker">New in 2.1.0</span>
+      <span class="kicker">New: Studio Edition</span>
+      <h2>A completely new menu.</h2>
+      <p>Five workspaces across the top (Home, Creator, Economy, Customize, Settings), a sidebar for each, 8 new color palettes and pages rebuilt from scratch. Real screenshots from the game.</p>
+    </div>
+    <div class="studio-grid reveal-up">
+      <figure><img src="img/studio-dashboard.jpg" width="1200" height="751" loading="lazy" alt="The Overview page: a 3D bust of the player, colored stats, wallet balance chart and net worth, profit and volume cards"><figcaption><b>Overview</b>Your 3D character from the shoulders up, kills, deaths and K/D as colored stats, your wallet chart and the numbers that matter.</figcaption></figure>
+      <figure><img src="img/studio-stream.jpg" width="1200" height="751" loading="lazy" alt="The Watch page: video player, Open media with Live and Video tabs, Display and Playback panels"><figcaption><b>Watch</b>Twitch, YouTube and TikTok in one player. On your screen, or on a screen in the world, which the menu now shows as "Playing in the world".</figcaption></figure>
+      <figure><img src="img/studio-streamchat.jpg" width="1200" height="751" loading="lazy" alt="The Chat page: live messages with a platform filter, connections and in-game overlay settings"><figcaption><b>Chat</b>All your platforms in one live chat, filter by platform, with connections and the in-game overlay beside it.</figcaption></figure>
+      <figure><img src="img/studio-spotify.jpg" width="1200" height="751" loading="lazy" alt="The Music page: album cover, progress bar, playback controls, synced lyrics and playback settings"><figcaption><b>Music</b>Big album art, seekable progress, controls and synced lyrics, in your menu's colors.</figcaption></figure>
+      <figure><img src="img/studio-hud.jpg" width="1200" height="751" loading="lazy" alt="HUD studio: a preview of the on-screen chat and the chat appearance settings"><figcaption><b>HUD studio</b>Pick how chat looks on your screen: Glass, Solid, Minimal or Floating, with opacity, platform logos and timestamps.</figcaption></figure>
+      <figure><img src="img/studio-watchparty.jpg" width="1200" height="751" loading="lazy" alt="Watch Party: a shared room with the video, invitation code and participants"><figcaption><b>Watch Party</b>A shared room with your own invitation code: type any code you like, change it any time, reveal or copy it.</figcaption></figure>
+      <figure><img src="img/studio-friends.jpg" width="1200" height="751" loading="lazy" alt="Friends: who is online, with their stats as colored chips"><figcaption><b>Friends</b>Online friends show their ping and game mode, plus health, armor, held item and distance when they're near you. Press Stats for their /stats.</figcaption></figure>
+      <figure><img src="img/studio-themes.jpg" width="1200" height="751" loading="lazy" alt="Appearance: a gallery of theme previews"><figcaption><b>Appearance</b>8 new Studio palettes (Midnight, Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne), with live mini previews. Your old themes are still there.</figcaption></figure>
+    </div>
+    <div class="head reveal-up" style="margin-top:56px">
+      <span class="kicker">Also new in 2.1.0</span>
       <h2>24 skies, a Utilities tab and liquid glass.</h2>
       <p>Everything here only changes what you see on your own screen. Nothing is sent to the server.</p>
     </div>
@@ -760,30 +782,31 @@ footer a:hover { color: var(--text); }
     <div class="head reveal-up">
       <span class="kicker">Themes</span>
       <h2>Make it match your stream.</h2>
-      <p>14 looks for the menu. Click one to see it. These are real screenshots from the game.</p>
+      <p>15 looks for the whole menu. Click one to see it. These are real screenshots from the game.</p>
     </div>
     <div class="themes reveal-up">
       <div>
-        <div class="theme-view"><img id="themeImg" src="img/theme-dashboard.jpg" width="1200" height="682" loading="lazy" alt="Dashboard in the Purple Dashboard theme"></div>
-        <p class="theme-cap" id="themeCap" aria-live="polite"><b>Purple Dashboard.</b> Dark purple economy dashboard with sharp panels.</p>
+        <div class="theme-view"><img id="themeImg" src="img/studio-theme-midnight.jpg" width="1200" height="751" loading="lazy" alt="Overview in the Midnight theme"></div>
+        <p class="theme-cap" id="themeCap" aria-live="polite"><b>Midnight.</b> Blue-charcoal surfaces with a soft lavender accent. The default for new installs.</p>
       </div>
       <div class="swatches" id="swatches" role="group" aria-label="Theme">
-        <span class="sw-label">Dashboard colors</span>
-        <button class="sw" type="button" data-t="dashboard" style="--c:#8b5cf6" aria-pressed="true" data-d="Dark purple economy dashboard with sharp panels."><i></i>Purple</button>
-        <button class="sw" type="button" data-t="dash-ocean" style="--c:#3b82f6" aria-pressed="false" data-d="The dashboard in deep blue."><i></i>Ocean</button>
-        <button class="sw" type="button" data-t="dash-emerald" style="--c:#10b981" aria-pressed="false" data-d="The dashboard in emerald green."><i></i>Emerald</button>
-        <button class="sw" type="button" data-t="dash-crimson" style="--c:#e5484d" aria-pressed="false" data-d="The dashboard in dark red."><i></i>Crimson</button>
-        <button class="sw" type="button" data-t="dash-gold" style="--c:#e0a800" aria-pressed="false" data-d="The dashboard in gold."><i></i>Gold</button>
-        <button class="sw" type="button" data-t="dash-rose" style="--c:#ec4899" aria-pressed="false" data-d="The dashboard in pink."><i></i>Rose</button>
-        <button class="sw" type="button" data-t="dash-cyber" style="--c:#06b6d4" aria-pressed="false" data-d="The dashboard in neon cyan."><i></i>Cyber</button>
-        <span class="sw-label">Scenes</span>
+        <span class="sw-label">Studio</span>
+        <button class="sw" type="button" data-t="midnight" style="--c:#a9a8ff" aria-pressed="true" data-d="Blue-charcoal surfaces with a soft lavender accent. The default for new installs."><i></i>Midnight</button>
+        <button class="sw" type="button" data-t="signature" style="--c:#62dca1" aria-pressed="false" data-d="The official Streamer Plus green."><i></i>Signature</button>
+        <button class="sw" type="button" data-t="graphite" style="--c:#cad4e3" aria-pressed="false" data-d="Neutral greys with a cool silver accent."><i></i>Graphite</button>
+        <button class="sw" type="button" data-t="studio_sakura" style="--c:#efadc9" aria-pressed="false" data-d="Muted plum surfaces with a blossom pink accent."><i></i>Sakura</button>
+        <button class="sw" type="button" data-t="ocean" style="--c:#79c4f6" aria-pressed="false" data-d="Deep navy with a sky blue accent."><i></i>Ocean</button>
+        <button class="sw" type="button" data-t="porcelain" style="--c:#365ec9" aria-pressed="false" data-d="A bright light theme with a cobalt accent."><i></i>Porcelain</button>
+        <button class="sw" type="button" data-t="noir" style="--c:#e5e5e5" aria-pressed="false" data-d="True black and white."><i></i>Noir</button>
+        <button class="sw" type="button" data-t="champagne" style="--c:#e4c58e" aria-pressed="false" data-d="Warm bronze surfaces with a soft gold accent."><i></i>Champagne</button>
+        <span class="sw-label">Classic and seasonal</span>
+        <button class="sw" type="button" data-t="arctic" style="--c:#7dd3fc" aria-pressed="false" data-d="Cool icy blues."><i></i>Arctic</button>
+        <button class="sw" type="button" data-t="amoled" style="--c:#4ade80" aria-pressed="false" data-d="Pure black, easy on OLED screens."><i></i>AMOLED Black</button>
         <button class="sw" type="button" data-t="glass" style="--c:#cbd5e1" aria-pressed="false" data-d="Frosted see-through panels over the blurred world."><i></i>Liquid Glass</button>
-        <button class="sw" type="button" data-t="aurora" style="--c:#34d399" aria-pressed="false" data-d="Northern lights over a starry night."><i></i>Aurora</button>
-        <button class="sw" type="button" data-t="vice" style="--c:#f472b6" aria-pressed="false" data-d="Neon sunset over the beach."><i></i>Vice Nights</button>
         <button class="sw" type="button" data-t="highroller" style="--c:#fbbf24" aria-pressed="false" data-d="Black and gold casino floor."><i></i>High Roller</button>
-        <button class="sw" type="button" data-t="sakura" style="--c:#f9a8d4" aria-pressed="false" data-d="Soft pink blossoms drifting by."><i></i>Sakura</button>
+        <button class="sw" type="button" data-t="aurora" style="--c:#34d399" aria-pressed="false" data-d="Northern lights over a starry night."><i></i>Aurora</button>
+        <button class="sw" type="button" data-t="sakura" style="--c:#f9a8d4" aria-pressed="false" data-d="Soft pink blossoms drifting by."><i></i>Sakura Blossoms</button>
         <button class="sw" type="button" data-t="christmas" style="--c:#22c55e" aria-pressed="false" data-d="Pine glass, twinkling string lights and snow."><i></i>Christmas</button>
-        <button class="sw" type="button" data-t="midnight" style="--c:#64748b" aria-pressed="false" data-d="Solid graphite panels. Easier on older graphics cards."><i></i>Midnight</button>
       </div>
     </div>
   </div>
@@ -850,7 +873,7 @@ footer a:hover { color: var(--text); }
           <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth, Lunar Client</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>8d48986b0890a942b9a0fce657d5898480e3deb33d00892f58c3dcc74890d620</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>a4d1a7b2aa608a90ae259d3c0dc0ef4961eb2e9aaa2a13bf49592a27aac3fd4f</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-primary dl-btn" href="downloads/streamerplus-2.1.0-mc26.3.jar">Download 26.3 beta</a>
         <p class="dl-note"></p>
@@ -863,7 +886,7 @@ footer a:hover { color: var(--text); }
           <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>026b6b29b63f3081a1cb9a7cbb41ef143790bd72a3809f23d45350b611ff9226</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>54114ae212379e3865470790a7739169ac438a3c18a89e9f413fe433d5b53003</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc26.2.jar">Download for 26.2</a>
         <p class="dl-note"></p>
@@ -876,7 +899,7 @@ footer a:hover { color: var(--text); }
           <dt>Size</dt><dd>201.8 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 21</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>db91e18eae266f747c51c803643801cca4794bcbf7056a7612b2c973d5d0cbcb</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>d9eca001c35ae64fff4c4f2f5989a9ebcd643bf8308e910beaf67a24bcb35960</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc1.21.11.jar">Download for 1.21.11</a>
         <p class="dl-note"></p>
@@ -915,6 +938,15 @@ footer a:hover { color: var(--text); }
     </div>
     <div class="card log reveal-up">
       <ul>
+        <li><b>Studio Edition menu:</b> a new layout with a title bar, five workspaces across the top (Home, Creator, Economy, Customize, Settings), a sidebar for each that remembers where you were, search across every page, and a footer that shows where you're connected.</li>
+        <li><b>8 new palettes:</b> Midnight (the new default for new installs), Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne. Every older theme is kept, and your saved choice stays.</li>
+        <li><b>Easier to read:</b> every theme now keeps secondary text clearly readable, colored icons for every page, crisper small text.</li>
+        <li><b>Overview:</b> your 3D character from the shoulders up, kills, deaths, K/D, balance and session as colored stats, a wallet chart and colored net worth, profit and volume cards with trends.</li>
+        <li><b>Activity:</b> a new page with payments and trades in one searchable ledger.</li>
+        <li><b>Friends:</b> online friends show their stats by themselves: ping, game mode, and health, armor, held item and distance when they're near you. Press Stats to see their /stats.</li>
+        <li><b>Watch, Chat and Music:</b> rebuilt pages. Watch has Live and Video tabs, and says "Playing in the world" when the stream is on a screen in the world. Chat shows all platforms with a filter. Music has big album art and synced lyrics.</li>
+        <li><b>HUD studio:</b> choose how chat looks on your screen (Glass, Solid, Minimal or Floating), its opacity, platform logos and timestamps.</li>
+        <li><b>Watch Party:</b> make your own invitation code (4 to 24 letters or numbers) and change it while your party is open.</li>
         <li><b>Utilities tab:</b> FPS &amp; Ping box, smooth zoom with scroll-to-zoom, freelook, fullbright, see-through menus, time and weather on your screen only, and payment safety in one place.</li>
         <li><b>24 skies:</b> Real Sky with the real sun, moon and clouds through the day, realistic cloud skies and sunsets, northern lights, galaxy and nebula. Works in the overworld and the End.</li>
         <li><b>Liquid glass:</b> glass inventories, chests (server menus too), buttons, the server list and Simple Voice Chat's menu, with an animated sky behind Minecraft's menus.</li>
@@ -1067,7 +1099,7 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(pr
 // -------- theme switcher (real screenshots)
 const themeImg = document.getElementById("themeImg"), themeCap = document.getElementById("themeCap");
 let preloaded = false;
-function preloadThemes() { if (preloaded) return; preloaded = true; document.querySelectorAll("#swatches [data-t]").forEach(b => { const i = new Image(); i.src = `img/theme-${b.dataset.t}.jpg`; }); }
+function preloadThemes() { if (preloaded) return; preloaded = true; document.querySelectorAll("#swatches [data-t]").forEach(b => { const i = new Image(); i.src = `img/studio-theme-${b.dataset.t}.jpg`; }); }
 document.getElementById("themes").addEventListener("pointerenter", preloadThemes, { once: true });
 document.getElementById("swatches").addEventListener("click", e => {
   const b = e.target.closest("[data-t]"); if (!b) return;
@@ -1075,8 +1107,8 @@ document.getElementById("swatches").addEventListener("click", e => {
   document.querySelectorAll("#swatches .sw").forEach(s => s.setAttribute("aria-pressed", s === b ? "true" : "false"));
   const name = b.textContent.trim(), full = b.dataset.t.startsWith("dash") || b.dataset.t === "dashboard" ? name + " Dashboard" : name;
   themeImg.style.opacity = .25;
-  const next = new Image(); next.src = `img/theme-${b.dataset.t}.jpg`;
-  const swap = () => { themeImg.src = next.src; themeImg.alt = `Dashboard in the ${full} theme`; themeImg.style.opacity = 1; };
+  const next = new Image(); next.src = `img/studio-theme-${b.dataset.t}.jpg`;
+  const swap = () => { themeImg.src = next.src; themeImg.alt = `Overview in the ${full} theme`; themeImg.style.opacity = 1; };
   next.complete ? setTimeout(swap, 120) : (next.onload = next.onerror = swap);
   themeCap.innerHTML = `<b>${full}.</b> ${b.dataset.d}`;
 });
