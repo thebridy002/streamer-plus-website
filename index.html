@@ -367,6 +367,10 @@ footer a:hover { color: var(--text); }
 .sky-grid figure:hover img { transform: scale(1.05); }
 .sky-grid figcaption { padding: 8px 12px; font: 600 13px/1.2 var(--body); }
 @media (max-width: 860px) { .sky-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.horizon-hero { margin: 30px 0 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--ink-2); }
+.horizon-hero img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.horizon-hero figcaption { padding: 12px 16px; font-size: 14px; color: var(--muted, #a8a3b8); }
+.horizon-hero figcaption b { color: #fff; }
 .new-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
 .new-grid .card img { width: 100%; border-radius: 10px; border: 1px solid var(--line); margin-top: 12px; display: block; }
 .new-grid ul { margin: 8px 0 0; padding-left: 18px; color: var(--dim); }
@@ -473,7 +477,45 @@ footer a:hover { color: var(--text); }
 <section id="new" class="alt">
   <div class="wrap">
     <div class="head reveal-up">
-      <span class="kicker">New: Studio Edition</span>
+      <span class="kicker">New: Horizon main menu</span>
+      <h2>A new home for Minecraft.</h2>
+      <p>Streamer Plus now replaces Minecraft's title screen with Horizon: an illustrated landscape, a big clock with the date, a greeting with your face, liquid-glass buttons that open Minecraft's own screens, and your own skin in 3D. It works without loading a world, on 26.3, 26.2 and 1.21.11. Real screenshots from the game.</p>
+    </div>
+    <figure class="horizon-hero reveal-up"><img src="img/horizon-twilight.jpg" width="1600" height="900" loading="lazy" alt="The Horizon main menu: a snowy mountain landscape at blue hour, a large clock and date at the top, glass buttons on the left and the player's skin in 3D on the right"><figcaption><b>Alpine Twilight.</b> Singleplayer, Multiplayer, Realms, Options and Quit open the real Minecraft screens; Appearance, Accessibility and Mods are one click away.</figcaption></figure>
+    <div class="sky-grid reveal-up">
+      <figure><img src="img/horizon-aurora.jpg" width="800" height="450" loading="lazy" alt="Northern Lights: green aurora over snowy peaks"><figcaption>Northern Lights</figcaption></figure>
+      <figure><img src="img/horizon-cherry.jpg" width="800" height="450" loading="lazy" alt="Cherry Blossom: pink trees beside a lake"><figcaption>Cherry Blossom</figcaption></figure>
+      <figure><img src="img/horizon-ocean.jpg" width="800" height="450" loading="lazy" alt="Ocean Horizon: open water with small islands"><figcaption>Ocean Horizon</figcaption></figure>
+      <figure><img src="img/horizon-midnight.jpg" width="800" height="450" loading="lazy" alt="Midnight Galaxy: a starry violet sky"><figcaption>Midnight Galaxy</figcaption></figure>
+      <figure><img src="img/horizon-autumn.jpg" width="800" height="450" loading="lazy" alt="Autumn Valley: amber trees beside a river"><figcaption>Autumn Valley</figcaption></figure>
+      <figure><img src="img/horizon-meadow.jpg" width="800" height="450" loading="lazy" alt="Summer Meadow: blue sky and green hills"><figcaption>Summer Meadow</figcaption></figure>
+      <figure><img src="img/horizon-nether.jpg" width="800" height="450" loading="lazy" alt="Nether Ember: basalt cliffs and glowing lava"><figcaption>Nether Ember</figcaption></figure>
+      <figure><img src="img/horizon-end.jpg" width="800" height="450" loading="lazy" alt="End Dimension: floating islands in a violet void"><figcaption>End Dimension</figcaption></figure>
+    </div>
+    <div class="new-grid">
+      <div class="card reveal-up">
+        <h3>15 landscapes, each with its own weather</h3>
+        <ul>
+          <li>Alpine Twilight, Northern Lights, Golden Valley, Cherry Blossom, Emerald Forest, Desert Mirage, Ocean Horizon, Midnight Galaxy, Autumn Valley, Rainy Mountains, Nether Ember, End Dimension, Summer Meadow, Moonlit Lake and Sakura Night</li>
+          <li>Falling snow, petals, leaves, rain, rising embers, End sparks and twinkling stars</li>
+          <li>Minecraft's other menus (server list, options and so on) show the same landscape</li>
+          <li>Or use your own PNG or JPG background. It stays on your computer and is never uploaded.</li>
+        </ul>
+      </div>
+      <div class="card reveal-up">
+        <h3>Make it yours</h3>
+        <ul>
+          <li>Customize (bottom right) opens a gallery of all 15 landscapes</li>
+          <li>Particles, particle intensity, motion, stars and brightness</li>
+          <li>Show or hide your character, its idle animation and mouse-follow</li>
+          <li>12 or 24-hour clock; show or hide the clock, date and greeting; reduce motion</li>
+          <li>Prefer the old title screen? Turn off Custom Minecraft main menu in Settings &gt; Appearance</li>
+        </ul>
+        <img src="img/horizon-customize.jpg" width="1200" height="675" loading="lazy" alt="The Customize menu: a gallery of the 15 landscapes with scene, character and clock settings">
+      </div>
+    </div>
+    <div class="head reveal-up" style="margin-top:56px">
+      <span class="kicker">Studio Edition</span>
       <h2>A completely new menu.</h2>
       <p>Five workspaces across the top (Home, Creator, Economy, Customize, Settings), a sidebar for each, 8 new color palettes and pages rebuilt from scratch. Real screenshots from the game.</p>
     </div>
@@ -482,10 +524,10 @@ footer a:hover { color: var(--text); }
       <figure><img src="img/studio-stream.jpg" width="1200" height="751" loading="lazy" alt="The Watch page: video player, Open media with Live and Video tabs, Display and Playback panels"><figcaption><b>Watch</b>Twitch, YouTube and TikTok in one player. On your screen, or on a screen in the world, which the menu now shows as "Playing in the world".</figcaption></figure>
       <figure><img src="img/studio-streamchat.jpg" width="1200" height="751" loading="lazy" alt="The Chat page: live messages with a platform filter, connections and in-game overlay settings"><figcaption><b>Chat</b>All your platforms in one live chat, filter by platform, with connections and the in-game overlay beside it.</figcaption></figure>
       <figure><img src="img/studio-spotify.jpg" width="1200" height="751" loading="lazy" alt="The Music page: album cover, progress bar, playback controls, synced lyrics and playback settings"><figcaption><b>Music</b>Big album art, seekable progress, controls and synced lyrics, in your menu's colors.</figcaption></figure>
-      <figure><img src="img/studio-hud.jpg" width="1200" height="751" loading="lazy" alt="HUD studio: a preview of the on-screen chat and the chat appearance settings"><figcaption><b>HUD studio</b>Pick how chat looks on your screen: Glass, Solid, Minimal or Floating, with opacity, platform logos and timestamps.</figcaption></figure>
+      <figure><img src="img/studio-hud.jpg" width="1200" height="751" loading="lazy" alt="HUD studio: a preview of the on-screen chat and the chat appearance settings"><figcaption><b>HUD studio</b>Pick how chat looks on your screen: Glass, Solid, Minimal or Floating, with opacity, platform logos and timestamps. New installs start on Minimal, small and clear.</figcaption></figure>
       <figure><img src="img/studio-watchparty.jpg" width="1200" height="751" loading="lazy" alt="Watch Party: a shared room with the video, invitation code and participants"><figcaption><b>Watch Party</b>A shared room with your own invitation code: type any code you like, change it any time, reveal or copy it.</figcaption></figure>
-      <figure><img src="img/studio-friends.jpg" width="1200" height="751" loading="lazy" alt="Friends: who is online, with their stats as colored chips"><figcaption><b>Friends</b>Online friends show their ping and game mode, plus health, armor, held item and distance when they're near you. Press Stats for their /stats.</figcaption></figure>
-      <figure><img src="img/studio-themes.jpg" width="1200" height="751" loading="lazy" alt="Appearance: a gallery of theme previews"><figcaption><b>Appearance</b>8 new Studio palettes (Midnight, Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne), with live mini previews. Your old themes are still there.</figcaption></figure>
+      <figure><img src="img/studio-friends.jpg" width="1200" height="751" loading="lazy" alt="Friends: who is online, with their stats as colored chips"><figcaption><b>Friends (coming soon)</b>Friends is being rebuilt and is marked coming soon in this update.</figcaption></figure>
+      <figure><img src="img/studio-themes.jpg" width="1200" height="751" loading="lazy" alt="Appearance: a gallery of theme previews"><figcaption><b>Appearance</b>8 new Studio palettes (Midnight, Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne), with live mini previews. Noir is the default for new installs. Your old themes are still there.</figcaption></figure>
     </div>
     <div class="head reveal-up" style="margin-top:56px">
       <span class="kicker">Also new in 2.1.0</span>
@@ -870,10 +912,10 @@ footer a:hover { color: var(--text); }
         <dl>
           <dt>Status</dt><dd>Beta pre-release. It may still have bugs.</dd>
           <dt>File</dt><dd><code>streamerplus-2.1.0-mc26.3.jar</code></dd>
-          <dt>Size</dt><dd>201.8 MB</dd>
+          <dt>Size</dt><dd>220.3 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth, Lunar Client</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>a4d1a7b2aa608a90ae259d3c0dc0ef4961eb2e9aaa2a13bf49592a27aac3fd4f</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>c8aeb32b99645d9390f44c1641bc7fb415f270150ba12d0b6b11c50ae17578b6</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-primary dl-btn" href="downloads/streamerplus-2.1.0-mc26.3.jar">Download 26.3 beta</a>
         <p class="dl-note"></p>
@@ -883,10 +925,10 @@ footer a:hover { color: var(--text); }
         <div class="mc"><small>Minecraft</small>26.2</div>
         <dl>
           <dt>File</dt><dd><code>streamerplus-2.1.0-mc26.2.jar</code></dd>
-          <dt>Size</dt><dd>201.8 MB</dd>
+          <dt>Size</dt><dd>220.3 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 25</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>54114ae212379e3865470790a7739169ac438a3c18a89e9f413fe433d5b53003</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>5800b9322baa29b43487c161dbfec885339be409045817db1cdb4ee83be73632</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc26.2.jar">Download for 26.2</a>
         <p class="dl-note"></p>
@@ -896,10 +938,10 @@ footer a:hover { color: var(--text); }
         <div class="mc"><small>Minecraft</small>1.21.11</div>
         <dl>
           <dt>File</dt><dd><code>streamerplus-2.1.0-mc1.21.11.jar</code></dd>
-          <dt>Size</dt><dd>201.8 MB</dd>
+          <dt>Size</dt><dd>220.3 MB</dd>
           <dt>Needs</dt><dd>Fabric Loader 0.15+, Fabric API, Java 21</dd>
           <dt>Works in</dt><dd>Fabric, Modrinth</dd>
-          <dt>SHA-256</dt><dd class="sha"><code>d9eca001c35ae64fff4c4f2f5989a9ebcd643bf8308e910beaf67a24bcb35960</code><button class="copy" type="button">Copy</button></dd>
+          <dt>SHA-256</dt><dd class="sha"><code>4ddbd1d411038f94a3f86da2ac1ec3f2db272ac4ffc7ad2a8930248c1fa7d639</code><button class="copy" type="button">Copy</button></dd>
         </dl>
         <a class="btn btn-ghost dl-btn" href="downloads/streamerplus-2.1.0-mc1.21.11.jar">Download for 1.21.11</a>
         <p class="dl-note"></p>
@@ -908,7 +950,7 @@ footer a:hover { color: var(--text); }
     <div class="req reveal-up">
       <div><b>Fabric API</b>Get the Fabric API build for the same Minecraft version from Modrinth or CurseForge.</div>
       <div><b>Java</b>The Minecraft launcher, Modrinth and Lunar already include the right Java. Nothing extra to install.</div>
-      <div><b>Why 200 MB?</b>The stream player is built in, so you don't need to install anything else.</div>
+      <div><b>Why 220 MB?</b>The stream player is built in, so you don't need to install anything else.</div>
     </div>
   </div>
 </section>
@@ -938,8 +980,20 @@ footer a:hover { color: var(--text); }
     </div>
     <div class="card log reveal-up">
       <ul>
+        <li><b>Horizon main menu:</b> a new title screen with 15 illustrated landscapes and their own particles, a centered clock and date, a greeting with your face, liquid-glass buttons that open Minecraft's real screens, and your skin in 3D that can follow the mouse. Customize it from the button at the bottom right, or switch back to Minecraft's title screen in Settings &gt; Appearance.</li>
+        <li><b>Start menus:</b> the server list, options and Minecraft's other menus outside a world now show your Horizon landscape behind them.</li>
+        <li><b>Search fixed:</b> the page search shows a list of results as you type; click one, or press Enter to open the first.</li>
+        <li><b>Utilities as tabs:</b> FPS &amp; Ping, Zoom, Freelook, Look, Time &amp; weather and Payment safety are tabs at the top right, like Preferences.</li>
+        <li><b>Studio:</b> Text and Image open a small form before anything is made, with a color grid and a hex box, Delete all, and red delete buttons. The HUD studio preview is gone, so the settings get the full width.</li>
+        <li><b>Coming soon:</b> 3D text, 3D lyrics in the world, Spotify Search, Library and Playlists, and Friends are marked coming soon and switched off while they're rebuilt.</li>
+        <li><b>Activity:</b> flips (items you bought and sold again, like elytras) are highlighted, with a Flips only filter.</li>
+        <li><b>DonutSMP logo:</b> the DonutSMP donut shows wherever DonutSMP is named.</li>
+        <li><b>Privacy:</b> other players never see which server you're on, only whether you're on the same one.</li>
+        <li><b>HUD size:</b> the HUD no longer shows too small on some GUI scales.</li>
+        <li><b>New defaults for new installs:</b> the Noir theme, Minimal chat, zoom 6.5x, clear weather at noon on your screen, and a tidier HUD. Your saved settings don't change.</li>
+        <li><b>Fixes:</b> Realistic sky no longer flickers between times of day, and borders are cleaner across the menu.</li>
         <li><b>Studio Edition menu:</b> a new layout with a title bar, five workspaces across the top (Home, Creator, Economy, Customize, Settings), a sidebar for each that remembers where you were, search across every page, and a footer that shows where you're connected.</li>
-        <li><b>8 new palettes:</b> Midnight (the new default for new installs), Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne. Every older theme is kept, and your saved choice stays.</li>
+        <li><b>8 new palettes:</b> Midnight, Signature, Graphite, Sakura, Ocean, Porcelain, Noir and Champagne. Every older theme is kept, and your saved choice stays.</li>
         <li><b>Easier to read:</b> every theme now keeps secondary text clearly readable, colored icons for every page, crisper small text.</li>
         <li><b>Overview:</b> your 3D character from the shoulders up, kills, deaths, K/D, balance and session as colored stats, a wallet chart and colored net worth, profit and volume cards with trends.</li>
         <li><b>Activity:</b> a new page with payments and trades in one searchable ledger.</li>
